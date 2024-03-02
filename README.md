@@ -6,3 +6,14 @@
 > python -m venv venv
 
 ##  remember to pip install django
+
+> run 'python manage.py startapp app_name' to create the app
+
+### should create a different branch for each microservice we have
+> Data Ingestion Service<br />
+Data Processing Service<br />
+Sensor Management Service<br />
+Crop Yield Prediction Service<br />
+User Interface Service
+
+# end
