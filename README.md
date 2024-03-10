@@ -11,7 +11,7 @@
 
 ### should create a different branch for each microservice we have
 > Data Ingestion + Sensor Management Service: Retrieve data and display real-time visualisation<br />
-Data Processing Service: Gain more insights on the data<br />
+Data Processing Service: Display sensor data history, Gain more insights on the data<br />
 Crop Yield Prediction Service: Use model to do some predictions<br />
 User Interface Service
 
