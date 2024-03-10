@@ -10,10 +10,9 @@
 > run 'python manage.py startapp app_name' to create the app
 
 ### should create a different branch for each microservice we have
-> Data Ingestion Service<br />
-Data Processing Service<br />
-Sensor Management Service<br />
-Crop Yield Prediction Service<br />
+> Data Ingestion + Sensor Management Service: Retrieve data and display real-time visualisation<br />
+Data Processing Service: Gain more insights on the data<br />
+Crop Yield Prediction Service: Use model to do some predictions<br />
 User Interface Service
 
 # end
