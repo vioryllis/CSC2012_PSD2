@@ -1,0 +1,14 @@
+{% extends "base.html" %} 
+{% block content %}
+<!-- CHOOSE PLANT FROM A SELECTION OF LEVELS -->
+<!-- Enpoint: /plants/<plantID> -->
+{% if testList %}
+    <ul>
+    {% for test in testList %}
+        <li><a>{{ test }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+<p>No polls are available.</p>
+{% endif %}
+{% endblock %}
