@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  farawayfarmer-frontend:
+    restart: unless-stopped
+    build:
+      context: ./psd2
+      dockerfile: dockerfile
+    ports:
+      - "8000:8000"
+#    depends_on:
+#      - farawayfarmer-backend
+#    links:
+#      - farawayfarmer-backend:farawayfarmer-backend
+
+#  farawayfarmer-backend:
+#    restart: unless-stopped
+#    build:
+#      context: ./
+#      dockerfile: dockerfile
+#    ports:
+#      - "8001:8000"
+#    depends_on:
+#      - farawayfarmer-frontend
+#    links:
+#      - farawayfarmer-frontend:farawayfarmer-frontend
