@@ -2,10 +2,10 @@
 {% block content %}
 <!-- CHOOSE PLANT FROM A SELECTION OF LEVELS -->
 <!-- Enpoint: /plants/<plantID> -->
-{% if testList %}
+{% if plants %}
     <ul>
-    {% for test in testList %}
-        <li><a>{{ test }}</a></li>
+    {% for plant in plants %}
+        <li><a href="/plants/{{ plant.id }}">{{ plant }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
