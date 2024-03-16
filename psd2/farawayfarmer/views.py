@@ -5,7 +5,7 @@ from .models import Plant
 import random
 
 def index(request):
-    template = loader.get_template("index.html")
+    template = loader.get_template("dashboard.html")
     context = {}
     if not Plant.objects.all():
         for i in range(10):
