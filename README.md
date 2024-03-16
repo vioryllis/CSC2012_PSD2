@@ -15,4 +15,12 @@ Data Processing Service: Display sensor data history, Gain more insights on the 
 Crop Yield Prediction Service: Use model to do some predictions<br />
 User Interface Service
 
+### to run the server
+```
+python manage.py migrate
+```
+```
+python manage.py runserver
+```
+
 # end
