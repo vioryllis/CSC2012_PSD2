@@ -16,6 +16,20 @@ Crop Yield Prediction Service: Use model to do some predictions<br />
 User Interface Service
 
 ### to run the server
+If running locally, edit the following code in ```settings.py``` file to match your database settings:
+```
+DATABASES = {
+    'default': {
+        "ENGINE": "django.db.backends.postgresql",
+        'NAME': 'farawayfarmer', # database name
+        'USER': 'example',
+        'PASSWORD': 'example',
+        'HOST': 'db',
+        #'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+```
 ```
 python manage.py migrate
 ```
