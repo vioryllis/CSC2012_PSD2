@@ -1,3 +1,6 @@
+# To run this file, RUN:
+# docker compose up -d 
+
 version: "3.8"
 services:
   farawayfarmer-frontend:
@@ -7,19 +10,42 @@ services:
       dockerfile: dockerfile
     ports:
       - "8000:8000"
-#    depends_on:
-#      - farawayfarmer-backend
-#    links:
-#      - farawayfarmer-backend:farawayfarmer-backend
+    depends_on:
+      - farawayfarmer-db
+    links:
+      - farawayfarmer-db:db
+#      - farawayfarmer-api
 
-#  farawayfarmer-backend:
+#  farawayfarmer-api:
 #    restart: unless-stopped
 #    build:
-#      context: ./
+#      context: ./ # Incomplete
 #      dockerfile: dockerfile
 #    ports:
 #      - "8001:8000"
 #    depends_on:
-#      - farawayfarmer-frontend
-#    links:
-#      - farawayfarmer-frontend:farawayfarmer-frontend
+#      - farawayfarmer-db
+
+  farawayfarmer-db:
+    image: postgres
+    restart: unless-stopped
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    # or set shared memory limit when deploy via swarm stack
+    #volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    environment:
+      POSTGRES_USER: example
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: farawayfarmer
+
+  db-adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    links:
+      - farawayfarmer-db:db

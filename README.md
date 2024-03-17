@@ -23,4 +23,10 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+
+### to run docker container
+From the root directory, run
+```
+docker-compose up
+```
 # end

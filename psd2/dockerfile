@@ -1,8 +1,10 @@
-FROM python:3.11-slim
+# To build the image: 
+# docker build -t farawayfarmer-frontend .
+
+FROM python:3.11
 ADD . .
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1  
 RUN pip install -r requirements.txt  
 EXPOSE 8000  
-RUN python manage.py makemigrations
-CMD python manage.py runserver 0.0.0.0:8000
+CMD python manage.py migrate && python manage.py runserver 0.0.0.0:8000
