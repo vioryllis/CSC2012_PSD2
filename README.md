@@ -10,22 +10,23 @@
 > run 'python manage.py startapp app_name' to create the app
 
 ### should create a different branch for each microservice we have
-> Data Ingestion + Sensor Management Service: Retrieve data and display real-time visualisation<br />
-Data Processing Service: Display sensor data history, Gain more insights on the data<br />
-Crop Yield Prediction Service: Use model to do some predictions<br />
-User Interface Service
+> (api container) Data Ingestion + Sensor Management Service: Retrieve data and store into postgres, setup REST API for controls<br />
+(postgres container) for database<br />
+(faraway farmer container) Data Processing Service: Display user interface and controls
 
 ### to run api side
 ```
 cd into api folder and create a .env file
-then add these details inside the file: (edit the fields according to your own postfres details)
+then add these details inside the file: (edit the fields according to your own postgres details)
 
 # Postgres database settings
-POSTGRES_DATABASE_NAME = 'nearbyfarmer
+POSTGRES_DATABASE_NAME = 'nearbyfarmer'
 POSTGRES_USER = 'postgres'
 POSTGRES_PASSWORD = '1234'
 POSTGRES_HOST = 'localhost'
 POSTGRES_PORT = '5432'
+
+for local postgres, create database with the same name as POSTGRES_DATABASE_NAME inside pgadmin4.
 
 then run py manage.py migrate
 
