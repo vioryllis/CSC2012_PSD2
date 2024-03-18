@@ -2,8 +2,8 @@
 
 ## remember to make your own venv
 ```
-"C:\Users\USER\AppData\Local\Programs\Python\Python310\python.exe" -m venv venv<br />
-or<br />
+"C:\Users\USER\AppData\Local\Programs\Python\Python310\python.exe" -m venv venv
+or
 python -m venv venv
 ```
 
@@ -15,8 +15,8 @@ pip install -r requirements.txt (in the psd2 folder)
 
 ### should create a different branch for each microservice we have
 ```
-(api container) Data Ingestion + Sensor Management Service: Retrieve data and store into postgres, setup REST API for controls<br />
-(postgres container) for database<br />
+(api container) Data Ingestion + Sensor Management Service: Retrieve data and store into postgres, setup REST API for controls
+(postgres container) for database
 (faraway farmer container) Data Processing Service: Display user interface and controls
 ```
 
