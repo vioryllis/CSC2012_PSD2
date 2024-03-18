@@ -15,6 +15,22 @@ Data Processing Service: Display sensor data history, Gain more insights on the 
 Crop Yield Prediction Service: Use model to do some predictions<br />
 User Interface Service
 
+### to run api side
+```
+cd into api folder and create a .env file
+then add these details inside the file: (edit the fields according to your own postfres details)
+
+# Postgres database settings
+POSTGRES_DATABASE_NAME = 'nearbyfarmer
+POSTGRES_USER = 'postgres'
+POSTGRES_PASSWORD = '1234'
+POSTGRES_HOST = 'localhost'
+POSTGRES_PORT = '5432'
+
+then run py manage.py migrate
+
+```
+
 ### to run the server
 If running locally, edit the following code in ```settings.py``` file to match your database settings:
 ```
