@@ -2,12 +2,16 @@
 {% block content %}
 <!-- CHOOSE PLANT FROM A SELECTION OF LEVELS -->
 <!-- Enpoint: /plants/<plantID> -->
-{% if plants %}
-    <ul>
-    {% for plant in plants %}
-        <li><a href="/plants/{{ plant.plant_id }}">{{ plant }}</a></li>
-    {% endfor %}
-    </ul>
+    {% if plants %}
+
+    <div>
+        {% for floor in plants.items%}
+            <h1>{{ floor.0 }}</h1>
+            {% for plant in floor.1 %}
+                <a href="/plants/{{plant.plant_id}}">{{ plant.name }}</a>
+            {% endfor %}
+        {% endfor %}
+    </div>
 {% else %}
 <p>No polls are available.</p>
 {% endif %}

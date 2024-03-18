@@ -13,8 +13,8 @@ def index(request):
     
     if not Plant.objects.all():
         for i in range(10):
-            p = Plant(name="test{}".format(i), 
-                      floor="{}".format(i), 
+            p = Plant(name="Plant {}".format(i), 
+                      floor="{}".format(random.choice(["1", "2", "3", "4", "5"])), 
                       public=True, 
                       auto_system=random.choice([True, False]), 
                       min_water_level=random.uniform(0, 100), 
@@ -25,9 +25,18 @@ def index(request):
 
 def plants(request):
     template = loader.get_template("plants.html")
+    plants = {}
+    # sort plants by floor
+    for plant in Plant.objects.all():
+        if plant.floor not in plants:
+            plants[plant.floor] = []
+        plants[plant.floor].append(plant)
+    
+    # Sort the plants by floor
     context = {
-        "plants": Plant.objects.all(),
+        "plants": dict(sorted(plants.items(), key=lambda x: x[0])),
     }
+    print(context)
     return HttpResponse(template.render(context, request))
 
 def plant(request, plant_id):
