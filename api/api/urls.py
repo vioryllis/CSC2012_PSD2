@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from ..nearbyfarmer import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/data', views.receive_data, name='receive_data'),
 ]
