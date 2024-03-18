@@ -3,7 +3,7 @@
 
 version: "3.8"
 services:
-  farawayfarmer-frontend:
+  farawayfarmer:
     restart: unless-stopped
     build:
       context: ./psd2
@@ -11,22 +11,19 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - farawayfarmer-db
-    links:
-      - farawayfarmer-db:db
-#      - farawayfarmer-api
+      - db
 
-#  farawayfarmer-api:
+#  nearbyfarmer:
 #    restart: unless-stopped
 #    build:
-#      context: ./ # Incomplete
+#      context: ./api
 #      dockerfile: dockerfile
 #    ports:
 #      - "8001:8000"
 #    depends_on:
-#      - farawayfarmer-db
+#      - db
 
-  farawayfarmer-db:
+  db:
     image: postgres
     restart: unless-stopped
     # set shared memory limit when using docker-compose
@@ -47,5 +44,3 @@ services:
     restart: unless-stopped
     ports:
       - 8080:8080
-    links:
-      - farawayfarmer-db:db

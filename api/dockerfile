@@ -1,5 +1,5 @@
 # To build the image: 
-# docker build -t farawayfarmer .
+# docker build -t nearbyfarmer .
 
 FROM python:3.11
 ADD . .
