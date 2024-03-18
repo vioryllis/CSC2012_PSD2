@@ -5,7 +5,7 @@
 {% if plants %}
     <ul>
     {% for plant in plants %}
-        <li><a href="/plants/{{ plant.id }}">{{ plant }}</a></li>
+        <li><a href="/plants/{{ plant.plant_id }}">{{ plant }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

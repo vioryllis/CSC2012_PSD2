@@ -8,6 +8,7 @@ services:
     build:
       context: ./psd2
       dockerfile: dockerfile
+    image: farawayfarmer
     ports:
       - "8000:8000"
     depends_on:
