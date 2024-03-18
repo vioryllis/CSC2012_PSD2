@@ -1,18 +1,24 @@
 # CSC2012_PSD2
 
 ## remember to make your own venv
-> "C:\Users\USER\AppData\Local\Programs\Python\Python310\python.exe" -m venv venv<br />
-> or<br />
-> python -m venv venv
+```
+"C:\Users\USER\AppData\Local\Programs\Python\Python310\python.exe" -m venv venv<br />
+or<br />
+python -m venv venv
+```
 
 ##  remember to pip install django
 
-> run 'python manage.py startapp app_name' to create the app
+```
+pip install -r requirements.txt (in the psd2 folder)
+```
 
 ### should create a different branch for each microservice we have
-> (api container) Data Ingestion + Sensor Management Service: Retrieve data and store into postgres, setup REST API for controls<br />
+```
+(api container) Data Ingestion + Sensor Management Service: Retrieve data and store into postgres, setup REST API for controls<br />
 (postgres container) for database<br />
 (faraway farmer container) Data Processing Service: Display user interface and controls
+```
 
 ### to run api side
 ```
@@ -29,6 +35,10 @@ POSTGRES_PORT = '5432'
 for local postgres, create database with the same name as POSTGRES_DATABASE_NAME inside pgadmin4.
 
 then run py manage.py migrate
+
+if you are using m5stick to send data over, you have to specify 0.0.0.0 behind to allow connection from other networks:
+
+py manage.py runserver 0.0.0.0:8000
 
 ```
 
