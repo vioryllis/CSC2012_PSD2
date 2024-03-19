@@ -36,7 +36,6 @@ def plants(request):
     context = {
         "plants": dict(sorted(plants.items(), key=lambda x: x[0])),
     }
-    print(context)
     return HttpResponse(template.render(context, request))
 
 def plant(request, plant_id):

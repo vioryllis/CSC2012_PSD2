@@ -1,18 +1,104 @@
-{% extends "base.html" %} 
-{% block content %}
+{% extends "base.html" %} {% block content %}
+{% load static %}
 <!-- CHOOSE PLANT FROM A SELECTION OF LEVELS -->
 <!-- Enpoint: /plants/<plantID> -->
-    {% if plants %}
 
-    <div>
-        {% for floor in plants.items%}
-            <h1>{{ floor.0 }}</h1>
-            {% for plant in floor.1 %}
-                <a href="/plants/{{plant.plant_id}}">{{ plant.name }}</a>
+<div class="container-flex">
+    <div class="window row">
+        <div class="row">
+            <!--iterate 3 times-->
+            {% for i in '0123'|make_list %}
+            <div class="col">
+                <img class="cloud" src="{% static 'farawayfarmer/vecteezy_white-cloud-with-shadow-design-element_23817145.png' %}" alt="Cloud Image">
+            </div>
             {% endfor %}
-        {% endfor %}
+        </div>
+        <div class="building row">
+            {% for floor in plants.items%}
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-8 row level">
+                    <div class="col-2">
+                        <div class="sign">
+                            <h3>
+                                Level {{ floor.0 }}
+                            </h3>
+                        </div>
+                        
+                    </div>
+                    <div class="col-10 card level-plants">
+                        <div class="row">
+                            <div class="plant">
+                                <img class="plant-image" src="https://png.pngtree.com/png-clipart/20220916/original/pngtree-elevator-door-with-up-and-down-button-png-image_8619899.png" alt="Door Image">
+                            </div>
+                            {% for plant in floor.1 %}
+                            <div class="card plant">
+                                <a class="text-center" href="/plants/{{plant.plant_id}}">
+                                    <img src="https://www.trees.com/wp-content/uploads/files/inline-images/kratky-method_0.png" alt="Plant Image" class="plant-image">
+                                    {{ plant.name }}
+                                </a>
+                            </div>
+                            {% endfor %}
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div id="ground" class="row align-self-end"></div>
     </div>
-{% else %}
-<p>No polls are available.</p>
-{% endif %}
+</div>
+    
+
+<script>
+    window.scrollTo(0, document.body.scrollHeight);
+</script>
+<style>
+    body {
+        background: #87CEEB;
+    }
+    .window {
+        margin:0;
+        height: 100%;
+    }
+    .cloud {
+        width: 200px;
+        height: 150px;
+    }
+    .building {
+        margin:0;
+    }
+    .level {
+        margin-top: 7px;
+        margin-bottom: 3px;
+    }
+    .level .sign {
+        background-color: #EEEEEE;
+        padding: 5px;
+        border-radius: 5px;
+    }
+    .level .sign h3 {
+        text-align: center;
+    }
+    .level-plants {
+        background-color: #BFBEBE;
+    }
+    .plant {
+        margin: 5px;
+        padding: 5px;
+        height: 100px;
+        width: 100px;
+        border-radius: 5px;
+    }
+    .plant-image {
+        width: 100%;
+        }
+    #ground {
+        margin: 0;
+        width: 100%;
+        height: 100px;
+        background-color: #76552B;
+    }
+</style>
 {% endblock %}
