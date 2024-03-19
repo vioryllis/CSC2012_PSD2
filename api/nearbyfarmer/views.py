@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.views.decorators.http import require_GET
 
 @csrf_exempt
 def receive_data(request):
@@ -12,3 +13,8 @@ def receive_data(request):
         return JsonResponse({"status": "success", "data": data})
     else:
         return JsonResponse({"status": "error", "message": "Only POST requests are allowed"})
+
+@require_GET
+def send_data(request):
+    data = {"message": "WATER YOYUR PLANT NOW"}
+    return JsonResponse(data)
