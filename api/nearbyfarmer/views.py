@@ -16,5 +16,5 @@ def receive_data(request):
 
 @require_GET
 def send_data(request):
-    data = {"message": "WATER YOYUR PLANT NOW"}
+    data = {"message": "WATER YOUR PLANT NOW"}
     return JsonResponse(data)
