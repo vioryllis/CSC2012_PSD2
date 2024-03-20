@@ -1,8 +1,24 @@
 from django.http import HttpResponse
 from django.template import loader
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 
 from .models import User, Plant
 import random
+
+def login(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('plants')
+        else:
+            error_message = "Invalid email or password."
+            return render(request, 'login.html', {'error_message': error_message})
+    else:
+        return render(request, 'login.html')
 
 def index(request):
     template = loader.get_template("dashboard.html")
