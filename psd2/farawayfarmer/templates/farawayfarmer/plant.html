@@ -1,10 +1,12 @@
 {% extends "base.html" %} 
 
 {% block content %}
+{% load static %}
+
 <div class="app-container">
     <main class="flex-container">
         <div class="plant-image-container">
-            <img src="https://www.trees.com/wp-content/uploads/files/inline-images/kratky-method_0.png" alt="Plant Image" class="plant-image">
+            <img class="plant-image" src="{% static 'farawayfarmer/hydroponic_plant.png' %}" alt="Plant Image">
         </div>
         <div class="info-and-actions">
             <div class="plant-info">
@@ -18,15 +20,15 @@
             </div>
             <div class="action-buttons">
                 <button class="btn" id="water-btn">
-                    <img src="https://static.vecteezy.com/system/resources/previews/017/420/275/original/green-watering-can-or-gardening-pot-tool-free-png.png" alt="Water" class="button-icon">
+                    <img src="{% static 'farawayfarmer/watering_can_icon.png' %}" alt="Water" class="button-icon">
                     Water
                 </button>
                 <button class="btn" id="fertilize-btn">
-                    <img src="https://cdn2.iconfinder.com/data/icons/farming-and-agriculture-5/64/fertilizer-seed-fertilize-planting-compost-1024.png" alt="Fertilize" class="button-icon">
+                    <img src="{% static 'farawayfarmer/fertilizer_icon.png' %}" alt="Fertilize" class="button-icon">
                     Fertilize
                 </button>
                 <button class="btn" id="on-off-btn">
-                    <img src="http://cdn.onlinewebfonts.com/svg/img_21244.png" alt="On-Off" class="button-icon">
+                    <img src="{% static 'farawayfarmer/on_off_icon.png' %}" alt="On-Off" class="button-icon">
                     On/Off
                 </button>
             </div>
