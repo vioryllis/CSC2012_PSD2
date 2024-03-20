@@ -14,7 +14,16 @@ def receive_data(request):
     else:
         return JsonResponse({"status": "error", "message": "Only POST requests are allowed"})
 
-@require_GET
-def send_data(request):
-    data = {"message": "WATER YOUR PLANT NOW"}
-    return JsonResponse(data)
+@csrf_exempt
+def water_plant(request):
+    if request.method == 'POST':
+        plant_id = request.data.get('plant_id')
+        data = {"message": "Watering plant " + plant_id + "!"}
+        return JsonResponse(data)
+
+@csrf_exempt
+def fertilize_plant(request):
+    if request.method == 'POST':
+        plant_id = request.data.get('plant_id')
+        data = {"message": "Fertilizing plant " + plant_id + "!"}
+        return JsonResponse(data)
