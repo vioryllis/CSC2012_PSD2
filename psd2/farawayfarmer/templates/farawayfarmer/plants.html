@@ -5,7 +5,7 @@
 
 <div class="container-flex">
     <div class="window row">
-        <div class="row">
+        <div class="row cloud-container">
             <!--iterate 3 times-->
             {% for i in '0123'|make_list %}
             <div class="col">
@@ -100,5 +100,30 @@
         height: 100px;
         background-color: #76552B;
     }
+
+    .cloud-container {
+        display: flex;
+        overflow: hidden;
+        width: 100%;
+        height: 200px;
+    }
+
+    .col {
+        flex: 1;
+    }
+
+    .cloud {
+        animation: cloudMove 50s linear infinite;
+    }
+
+    @keyframes cloudMove {
+        0% {
+            transform: translateX(0); /* Initial position */
+        }
+        100% {
+            transform: translateX(100%); /* Move the cloud to the right end of its container */
+        }
+    }
+
 </style>
 {% endblock %}
