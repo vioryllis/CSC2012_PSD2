@@ -60,3 +60,17 @@ def plant(request, plant_id):
         "plant": Plant.objects.get(pk=plant_id),
     }
     return HttpResponse(template.render(context, request))
+
+
+def call_water_plant(request):
+    url = "http://0.0.0.0:8000/api/water_plant/"
+
+    data = {"plant_id": "1"}
+    
+    # Make the POST request
+    response = requests.post(url, json=data)
+    
+    if response.status_code == 200:
+        return JsonResponse(response.json())
+    else:
+        return JsonResponse({"error": "Failed to call water_plant in Project B"}, status=response.status_code)
