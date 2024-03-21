@@ -2,10 +2,10 @@
 #include <M5StickCPlus.h> // Include M5StickCPlus library
 #include <HTTPClient.h>
 
-const char* ssid = "raidensupremacy";
-const char* password = "matchasupremacy";
-const char* serverName = "http://172.20.10.5:8000/api/data"; // POST url
-const char* sendServer = "http://172.20.10.5:8000/api/send_data"; // GET url
+const char* ssid = "cookiie";
+const char* password = "rllr4884";
+const char* serverName = "http://192.168.133.159:8000/api/data"; // POST url
+const char* sendServer = "http://192.168.133.159:8000/api/water_plant/"; // GET url
 
 void setup() {
   M5.begin();

@@ -9,5 +9,5 @@ urlpatterns = [
     path("plants/<int:plant_id>", views.plant, name="plant"),
 
     # for testings
-    path("plants/call_water_plant", views.call_water_plant, name="call_water_plant"),
+    path("plants/call_water_plant/", views.call_water_plant, name="call_water_plant"),
 ]
