@@ -18,9 +18,13 @@ def receive_data(request):
 @csrf_exempt
 def water_plant(request):
     if request.method == 'POST':
-        plant_id = request.data.get('plant_id')
-        data = {"message": "Watering plant " + plant_id + "!"}
-        return JsonResponse(data)
+        try:
+            data = json.loads(request.body)
+            plant_id = data.get('plant_id')
+            message = "Watering plant " + str(plant_id) + "!"
+            return JsonResponse({"message": message})
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
 
 @csrf_exempt
 def fertilize_plant(request):
