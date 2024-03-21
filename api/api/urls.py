@@ -21,5 +21,5 @@ from nearbyfarmer import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/data', views.receive_data, name='receive_data'),
-    path('api/send_data', views.send_data, name='send_data'),
+    # path('api/send_data', views.send_data, name='send_data'),
 ]
