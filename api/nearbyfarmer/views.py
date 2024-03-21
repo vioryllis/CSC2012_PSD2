@@ -32,8 +32,10 @@ def water_plant(request):
             return JsonResponse({"error": "Invalid JSON"}, status=400)
     elif request.method == 'GET':
         if last_message_water is not None:
+            response = JsonResponse({"message": last_message_water})
             print("GET SUCCESS: ", last_message_water)
-            return JsonResponse({"message": last_message_water})
+            last_message_water = None  # Clear the message after sending
+            return response
         else:
             return JsonResponse({"error": "No recent watering action found."}, status=404)
     else:
@@ -46,6 +48,7 @@ def fertilize_plant(request):
         plant_id = request.data.get('plant_id')
         data = {"message": "Fertilizing plant " + plant_id + "!"}
         return JsonResponse(data)
+
 
 @csrf_exempt
 def toggle_auto_system(request):
