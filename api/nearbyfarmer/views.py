@@ -15,16 +15,20 @@ def receive_data(request):
     else:
         return JsonResponse({"status": "error", "message": "Only POST requests are allowed"})
 
+
 @csrf_exempt
 def water_plant(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
+            print("LALALAL", data)
             plant_id = data.get('plant_id')
-            message = "Watering plant " + str(plant_id) + "!"
-            return JsonResponse({"message": message})
+            return JsonResponse({"message": "Watering plant " + plant_id + "!"})
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON"}, status=400)
+    else:
+        return JsonResponse({"error": "Only POST method is accepted."}, status=405)
+
 
 @csrf_exempt
 def fertilize_plant(request):
