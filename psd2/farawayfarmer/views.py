@@ -64,7 +64,7 @@ def plant(request, plant_id):
 
 
 def call_water_plant(request):
-    url = "http://0.0.0.0:8000/api/water_plant/"
+    url = "http://localhost:8000/api/water_plant/"
 
     data = {"plant_id": "1"}
     
@@ -74,4 +74,4 @@ def call_water_plant(request):
     if response.status_code == 200:
         return JsonResponse(response.json())
     else:
-        return JsonResponse({"error": "Failed to call water_plant in Project B"}, status=response.status_code)
+        return JsonResponse({"error": "Failed to call water_plant in on api side"}, status=response.status_code)

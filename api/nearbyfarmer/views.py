@@ -5,6 +5,8 @@ import json
 import requests
 from django.views.decorators.http import require_GET
 
+last_message_water = None
+
 @csrf_exempt
 def receive_data(request):
     if request.method == 'POST':
@@ -18,16 +20,23 @@ def receive_data(request):
 
 @csrf_exempt
 def water_plant(request):
+    global last_message_water
+
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            print("LALALAL", data)
             plant_id = data.get('plant_id')
-            return JsonResponse({"message": "Watering plant " + plant_id + "!"})
+            last_message_water = "Watering plant " + plant_id + "!"
+            return JsonResponse({"message": last_message_water})
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON"}, status=400)
+    elif request.method == 'GET':
+        if last_message_water is not None:
+            return JsonResponse({"message": last_message_water})
+        else:
+            return JsonResponse({"error": "No recent watering action found."}, status=404)
     else:
-        return JsonResponse({"error": "Only POST method is accepted."}, status=405)
+        return JsonResponse({"error": "Only POST and GET methods are accepted."}, status=405)
 
 
 @csrf_exempt
