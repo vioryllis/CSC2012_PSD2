@@ -72,6 +72,7 @@ def call_water_plant(request):
     response = requests.post(url, json=data)
     
     if response.status_code == 200:
+        print("POST SUCCESS FROM PSD2: ", response)
         return JsonResponse(response.json())
     else:
         return JsonResponse({"error": "Failed to call water_plant in on api side"}, status=response.status_code)

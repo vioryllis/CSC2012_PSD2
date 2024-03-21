@@ -32,6 +32,7 @@ def water_plant(request):
             return JsonResponse({"error": "Invalid JSON"}, status=400)
     elif request.method == 'GET':
         if last_message_water is not None:
+            print("GET SUCCESS: ", last_message_water)
             return JsonResponse({"message": last_message_water})
         else:
             return JsonResponse({"error": "No recent watering action found."}, status=404)
