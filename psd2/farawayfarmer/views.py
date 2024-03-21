@@ -2,7 +2,8 @@ from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-
+import requests
+from django.http import JsonResponse
 from .models import User, Plant
 import random
 
