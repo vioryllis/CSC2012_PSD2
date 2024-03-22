@@ -24,5 +24,5 @@ urlpatterns = [
     path('api/water_plant/', views.water_plant, name='water_plant'),
     path('api/water_plant_amt/', views.water_plant_amt, name='water_plant_amt'),
     path('api/fertilize_plant/', views.fertilize_plant, name='fertilize_plant'),
-    path('api/toggle/', views.toggle_auto_system, name='toggle'),
+    # path('api/toggle/', views.toggle_auto_system, name='toggle'),
 ]
