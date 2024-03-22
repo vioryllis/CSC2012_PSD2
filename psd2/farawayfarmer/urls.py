@@ -10,4 +10,5 @@ urlpatterns = [
 
     # for testings
     path("plants/call_water_plant/", views.call_water_plant, name="call_water_plant"),
+    path("plants/call_fertilize_plant/", views.call_fertilize_plant, name="call_fertilize_plant"),
 ]
