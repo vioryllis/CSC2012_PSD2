@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import requests
 from django.views.decorators.http import require_GET
+from .models import SensorData, Plant
 
 last_message_water = None
 last_message_fertilize = None
@@ -11,12 +12,38 @@ last_message_fertilize = None
 @csrf_exempt
 def receive_data(request):
     if request.method == 'POST':
-        data = json.loads(request.body.decode('utf-8'))
-        print("data from m5stick: ", data)
-        
-        return JsonResponse({"status": "success", "data": data})
+        try:
+            # Parse the incoming JSON data
+            data = json.loads(request.body.decode('utf-8'))
+            print("data from m5stick: ", data)
+
+            # Extract sensor data and plant_id from the incoming data
+            water_level = data['water_level']
+            nutrient_level = data['nutrient_level']
+            plant_id = data['plant_id']
+            
+            # Retrieve the plant instance associated with plant_id
+            plant = Plant.objects.get(pk=plant_id)
+            
+            # Create a new SensorData instance and save it to the database
+            sensor_data = SensorData(
+                water_level=water_level,
+                nutrient_level=nutrient_level,
+                plant=plant
+            )
+            sensor_data.save()
+            
+            return JsonResponse({"status": "success", "message": "Sensor data saved successfully"})
+        except KeyError as e:
+            return JsonResponse({"status": "error", "message": f"Missing field in request data: {str(e)}"}, status=400)
+        except Plant.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Plant not found"}, status=404)
+        except json.JSONDecodeError:
+            return JsonResponse({"status": "error", "message": "Invalid JSON format"}, status=400)
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=500)
     else:
-        return JsonResponse({"status": "error", "message": "Only POST requests are allowed"})
+        return JsonResponse({"status": "error", "message": "Only POST requests are allowed"}, status=405)
 
 
 @csrf_exempt
@@ -66,38 +93,61 @@ def fertilize_plant(request):
     else:
         return JsonResponse({"error": "Only POST and GET methods are accepted."}, status=405)
 
-
 @csrf_exempt
-def toggle_auto_system(request):
-    if request.method == "POST":
-        # TODO: 
-        on_or_off = request.data.get('on_or_off')
-        
-        if on_or_off:
-            # Data to send to M5Stick
-            data_to_m5stick = {"message": "Request to turn on auto watering system"}
-            
-            # URL of the M5Stick endpoint
-            m5stick_url = "http://m5stick_ip_address/api/receive_data"
-            
-            # Send data to M5Stick
-            response_to_m5stick = requests.post(m5stick_url, json=data_to_m5stick)
-            
-            if response_to_m5stick.status_code == 200:
-                return JsonResponse({"status": "success", "message": "Data sent to M5Stick successfully"})
-            else:
-                return JsonResponse({"status": "error", "message": "Failed to send data to M5Stick"}, status=500)
+def water_plant_amt(request):
+    global last_message_water
+
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            plant_id = data.get('plant_id')
+            amount_to_water = data.get('amt_to_water')
+            last_message_water = "Watering plant " + plant_id + " with " + amount_to_water + "ml!"
+            return JsonResponse({"message": last_message_water})
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+    elif request.method == 'GET':
+        if last_message_water is not None:
+            response = JsonResponse({"message": last_message_water})
+            print("GET SUCCESS: ", last_message_water)
+            last_message_water = None  # Clear the message after sending
+            return response
         else:
-             # Data to send to M5Stick
-            data_to_m5stick = {"message": "Request to turn off auto watering system"}
+            return JsonResponse({"error": "No recent watering (amt) action found."}, status=404)
+    else:
+        return JsonResponse({"error": "Only POST and GET methods are accepted."}, status=405)
+
+# @csrf_exempt
+# def toggle_auto_system(request):
+#     if request.method == "POST":
+#         # TODO: 
+#         on_or_off = request.data.get('on_or_off')
+        
+#         if on_or_off:
+#             # Data to send to M5Stick
+#             data_to_m5stick = {"message": "Request to turn on auto watering system"}
             
-            # URL of the M5Stick endpoint
-            m5stick_url = "http://m5stick_ip_address/api/receive_data"
+#             # URL of the M5Stick endpoint
+#             m5stick_url = "http://m5stick_ip_address/api/receive_data"
             
-            # Send data to M5Stick
-            response_to_m5stick = requests.post(m5stick_url, json=data_to_m5stick)
+#             # Send data to M5Stick
+#             response_to_m5stick = requests.post(m5stick_url, json=data_to_m5stick)
             
-            if response_to_m5stick.status_code == 200:
-                return JsonResponse({"status": "success", "message": "Data sent to M5Stick successfully"})
-            else:
-                return JsonResponse({"status": "error", "message": "Failed to send data to M5Stick"}, status=500)
+#             if response_to_m5stick.status_code == 200:
+#                 return JsonResponse({"status": "success", "message": "Data sent to M5Stick successfully"})
+#             else:
+#                 return JsonResponse({"status": "error", "message": "Failed to send data to M5Stick"}, status=500)
+#         else:
+#              # Data to send to M5Stick
+#             data_to_m5stick = {"message": "Request to turn off auto watering system"}
+            
+#             # URL of the M5Stick endpoint
+#             m5stick_url = "http://m5stick_ip_address/api/receive_data"
+            
+#             # Send data to M5Stick
+#             response_to_m5stick = requests.post(m5stick_url, json=data_to_m5stick)
+            
+#             if response_to_m5stick.status_code == 200:
+#                 return JsonResponse({"status": "success", "message": "Data sent to M5Stick successfully"})
+#             else:
+#                 return JsonResponse({"status": "error", "message": "Failed to send data to M5Stick"}, status=500)
