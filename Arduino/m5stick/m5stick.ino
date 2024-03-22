@@ -2,10 +2,16 @@
 #include <M5StickCPlus.h> // Include M5StickCPlus library
 #include <HTTPClient.h>
 
-const char* ssid = "cookiie";
-const char* password = "rllr4884";
-const char* serverName = "http://192.168.133.159:8000/api/data"; // POST url
-const char* sendServer = "http://192.168.133.159:8000/api/water_plant/"; // GET url
+// const char* ssid = "cookiie";
+// const char* password = "rllr4884";
+// const char* serverName = "http://192.168.133.159:8000/api/data"; // POST url
+// const char* sendServer = "http://192.168.133.159:8000/api/water_plant/"; // GET url
+
+const char* ssid = "raidensupremacy";
+const char* password = "matchasupremacy";
+const char* serverName = "http://172.20.10.5:8000/api/data"; // POST url
+const char* sendServer = "http://172.20.10.5:8000/api/water_plant/"; // GET url
+const char* fertilizer = "http://172.20.10.5:8000/api/fertilize_plant/";
 
 void setup() {
   M5.begin();
@@ -83,6 +89,37 @@ void loop() {
     }
 
     http_get.end();
+
+    delay(1000);
+
+    // GET REQUEST (for fertilizer)
+    HTTPClient http_fertilize;
+    http_fertilize.begin(fertilizer);
+    http_fertilize.addHeader("Content-Type", "application/json");
+
+    int getFertilizer = http_fertilize.GET();
+    
+    if(getFertilizer > 0) {
+      String get_fertilizer = http_fertilize.getString();
+      Serial.println(getFertilizer);
+      Serial.println(get_fertilizer);
+
+      // Display response on the M5StickC Plus
+      M5.Lcd.fillScreen(BLACK);
+      M5.Lcd.setTextSize(2);
+      M5.Lcd.setTextColor(WHITE);
+      M5.Lcd.setCursor(0, 0);
+      M5.Lcd.println("Response:");
+      M5.Lcd.setTextSize(1);
+      M5.Lcd.println(getFertilizer);
+      M5.Lcd.println(get_fertilizer);
+    }
+    else {
+      Serial.print("Error on sending GET: ");
+      Serial.println(getFertilizer);
+    }
+
+    http_fertilize.end();
   }
 
   else {
