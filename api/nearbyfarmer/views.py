@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import requests
 from django.views.decorators.http import require_GET
+from .models import SensorData, Plant
 
 last_message_water = None
 last_message_fertilize = None
@@ -11,12 +12,38 @@ last_message_fertilize = None
 @csrf_exempt
 def receive_data(request):
     if request.method == 'POST':
-        data = json.loads(request.body.decode('utf-8'))
-        print("data from m5stick: ", data)
-        
-        return JsonResponse({"status": "success", "data": data})
+        try:
+            # Parse the incoming JSON data
+            data = json.loads(request.body.decode('utf-8'))
+            print("data from m5stick: ", data)
+            
+            # Extract sensor data and plant_id from the incoming data
+            water_level = data['water_level']
+            nutrient_level = data['nutrient_level']
+            plant_id = data['plant_id']
+            
+            # Retrieve the plant instance associated with plant_id
+            plant = Plant.objects.get(pk=plant_id)
+            
+            # Create a new SensorData instance and save it to the database
+            sensor_data = SensorData(
+                water_level=water_level,
+                nutrient_level=nutrient_level,
+                plant=plant
+            )
+            sensor_data.save()
+            
+            return JsonResponse({"status": "success", "message": "Sensor data saved successfully"})
+        except KeyError as e:
+            return JsonResponse({"status": "error", "message": f"Missing field in request data: {str(e)}"}, status=400)
+        except Plant.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Plant not found"}, status=404)
+        except json.JSONDecodeError:
+            return JsonResponse({"status": "error", "message": "Invalid JSON format"}, status=400)
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=500)
     else:
-        return JsonResponse({"status": "error", "message": "Only POST requests are allowed"})
+        return JsonResponse({"status": "error", "message": "Only POST requests are allowed"}, status=405)
 
 
 @csrf_exempt
