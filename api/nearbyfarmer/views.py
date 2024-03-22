@@ -62,7 +62,7 @@ def fertilize_plant(request):
             last_message_fertilize = None  # Clear the message after sending
             return response
         else:
-            return JsonResponse({"error": "No recent watering action found."}, status=404)
+            return JsonResponse({"error": "No recent fertilizing action found."}, status=404)
     else:
         return JsonResponse({"error": "Only POST and GET methods are accepted."}, status=405)
 
