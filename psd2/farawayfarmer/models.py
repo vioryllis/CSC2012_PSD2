@@ -61,6 +61,6 @@ class SensorData(models.Model):
     water_level = models.DecimalField(max_digits=5, decimal_places=2)
     nutrient_level = models.DecimalField(max_digits=5, decimal_places=2)
     plant = models.ForeignKey(Plant, on_delete=models.CASCADE, related_name='sensor_data')
-
+    
     def __str__(self):
         return f"{self.plant.name} Sensor Data"

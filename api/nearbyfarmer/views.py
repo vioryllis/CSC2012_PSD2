@@ -66,6 +66,29 @@ def fertilize_plant(request):
     else:
         return JsonResponse({"error": "Only POST and GET methods are accepted."}, status=405)
 
+@csrf_exempt
+def water_plant_amt(request):
+    global last_message_water
+
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            plant_id = data.get('plant_id')
+            amount_to_water = data.get('amt_to_water')
+            last_message_water = "Watering plant " + plant_id + " with " + amount_to_water + "ml!"
+            return JsonResponse({"message": last_message_water})
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+    elif request.method == 'GET':
+        if last_message_water is not None:
+            response = JsonResponse({"message": last_message_water})
+            print("GET SUCCESS: ", last_message_water)
+            last_message_water = None  # Clear the message after sending
+            return response
+        else:
+            return JsonResponse({"error": "No recent watering (amt) action found."}, status=404)
+    else:
+        return JsonResponse({"error": "Only POST and GET methods are accepted."}, status=405)
 
 @csrf_exempt
 def toggle_auto_system(request):
