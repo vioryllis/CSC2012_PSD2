@@ -6,6 +6,7 @@ import requests
 from django.views.decorators.http import require_GET
 
 last_message_water = None
+last_message_fertilize = None
 
 @csrf_exempt
 def receive_data(request):
@@ -44,10 +45,26 @@ def water_plant(request):
 
 @csrf_exempt
 def fertilize_plant(request):
+    global last_message_fertilize
+
     if request.method == 'POST':
-        plant_id = request.data.get('plant_id')
-        data = {"message": "Fertilizing plant " + plant_id + "!"}
-        return JsonResponse(data)
+        try:
+            data = json.loads(request.body)
+            plant_id = data.get('plant_id')
+            last_message_fertilize = "Fertilizing plant " + plant_id + "!"
+            return JsonResponse({"message": last_message_fertilize})
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+    elif request.method == 'GET':
+        if last_message_fertilize is not None:
+            response = JsonResponse({"message": last_message_fertilize})
+            print("GET SUCCESS: ", last_message_fertilize)
+            last_message_fertilize = None  # Clear the message after sending
+            return response
+        else:
+            return JsonResponse({"error": "No recent watering action found."}, status=404)
+    else:
+        return JsonResponse({"error": "Only POST and GET methods are accepted."}, status=405)
 
 
 @csrf_exempt

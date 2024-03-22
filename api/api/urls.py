@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/data', views.receive_data, name='receive_data'),
     path('api/water_plant/', views.water_plant, name='water_plant'),
+    path('api/fertilize_plant/', views.fertilize_plant, name='fertilize_plant'),
 ]

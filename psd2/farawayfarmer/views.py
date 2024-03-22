@@ -76,3 +76,17 @@ def call_water_plant(request):
         return JsonResponse(response.json())
     else:
         return JsonResponse({"error": "Failed to call water_plant in on api side"}, status=response.status_code)
+
+def call_fertilize_plant(request):
+    url = "http://localhost:8000/api/fertilize_plant/"
+
+    data = {"plant_id": "1"}
+    
+    # Make the POST request
+    response = requests.post(url, json=data)
+    
+    if response.status_code == 200:
+        print("POST SUCCESS FROM PSD2: ", response)
+        return JsonResponse(response.json())
+    else:
+        return JsonResponse({"error": "Failed to call fertilize_plant in on api side"}, status=response.status_code)
