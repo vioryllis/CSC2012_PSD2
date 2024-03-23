@@ -1,0 +1,12 @@
+[
+    {
+      "model": "nearbyfarmer.user",
+      "pk": 1,
+      "fields": {
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "password": "plain_text_password",
+        "floor": "2"
+      }
+    }
+  ]
