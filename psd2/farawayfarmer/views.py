@@ -149,7 +149,7 @@ def call_water_plant(request):
             plantId = data.get('plant.plant_id')
             data = {"plant_id": plantId}
             response = requests.post(url, json=data)
-            print("Success plant ", plantId)
+            print("Success water plant ", plantId)
             if response.status_code == 200:
                 print("POST SUCCESS FROM PSD2: ", response)
                 return JsonResponse(response.json())
@@ -172,19 +172,38 @@ def call_water_plant(request):
     # else:
     #     return JsonResponse({"error": "Failed to call water_plant in on api side"}, status=response.status_code)
 
+@csrf_exempt
 def call_fertilize_plant(request):
     url = "http://localhost:8000/api/fertilize_plant/"
-
-    data = {"plant_id": "1"}
-    
-    # Make the POST request
-    response = requests.post(url, json=data)
-    
-    if response.status_code == 200:
-        print("POST SUCCESS FROM PSD2: ", response)
-        return JsonResponse(response.json())
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            plantId = data.get('plant.plant_id')
+            data = {"plant_id": plantId}
+            response = requests.post(url, json=data)
+            print("Success fertilize plant ", plantId)
+            if response.status_code == 200:
+                print("POST SUCCESS FROM PSD2: ", response)
+                return JsonResponse(response.json())
+            else:
+                return JsonResponse({"error": "Failed to call fertilize_plant in on api side"}, status=response.status_code)
+        except json.JSONDecodeError as e:
+            return JsonResponse({"error": "Invalid JSON data"}, status=400)
     else:
-        return JsonResponse({"error": "Failed to call fertilize_plant in on api side"}, status=response.status_code)
+        print("post not working")
+        return JsonResponse({"error": "Invalid request method"}, status=405)
+
+
+    # data = {"plant_id": "1"}
+    
+    # # Make the POST request
+    # response = requests.post(url, json=data)
+    
+    # if response.status_code == 200:
+    #     print("POST SUCCESS FROM PSD2: ", response)
+    #     return JsonResponse(response.json())
+    # else:
+    #     return JsonResponse({"error": "Failed to call fertilize_plant in on api side"}, status=response.status_code)
     
 @csrf_exempt
 def update_plant_settings(request):
