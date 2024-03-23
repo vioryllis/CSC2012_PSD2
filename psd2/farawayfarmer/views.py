@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.db.models import Avg
 import requests
 from django.http import JsonResponse
 from .models import User, Plant, SensorData
@@ -9,6 +10,8 @@ import random
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.core.serializers.json import DjangoJSONEncoder
+from django.utils.safestring import mark_safe
 
 def register(request):
     if request.method == 'POST':
@@ -279,9 +282,28 @@ def dashboard(request):
     user_plants = Plant.objects.filter(user=request.user)
     total_user_plants = user_plants.count()
 
+    # Get average sensor data for the user's plants
+    sensor_data_qs = SensorData.objects.filter(plant__in=user_plants).values('plant__name').annotate(
+        avg_water_level=Avg('water_level'),
+        avg_nutrient_level=Avg('nutrient_level')
+    )
+
+    # Prepare the data for the bar chart
+    plant_names = [entry['plant__name'] for entry in sensor_data_qs]
+    avg_water_levels = [entry['avg_water_level'] for entry in sensor_data_qs]
+    avg_nutrient_levels = [entry['avg_nutrient_level'] for entry in sensor_data_qs]
+
+    # Serialize the data to JSON strings
+    plant_names_json = mark_safe(json.dumps(plant_names, cls=DjangoJSONEncoder))
+    avg_water_levels_json = mark_safe(json.dumps(avg_water_levels, cls=DjangoJSONEncoder))
+    avg_nutrient_levels_json = mark_safe(json.dumps(avg_nutrient_levels, cls=DjangoJSONEncoder))
+
     context = {
         'total_user_plants': total_user_plants,
         'user': request.user,
+        'plant_names': plant_names_json,
+        'avg_water_levels': avg_water_levels_json,
+        'avg_nutrient_levels': avg_nutrient_levels_json,
     }
-
+    print(context)
     return render(request, 'dashboard.html', context)
