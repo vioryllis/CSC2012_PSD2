@@ -8,6 +8,7 @@ from .models import User, Plant, SensorData
 import random
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 def register(request):
     if request.method == 'POST':
@@ -96,20 +97,14 @@ def add_plant(request):
     else:
         return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
-# def plants(request):
-#     template = loader.get_template("plants.html")
-#     plants = {}
-#     # sort plants by floor
-#     for plant in Plant.objects.all():
-#         if plant.floor not in plants:
-#             plants[plant.floor] = []
-#         plants[plant.floor].append(plant)
-    
-#     # Sort the plants by floor
-#     context = {
-#         "plants": dict(sorted(plants.items(), key=lambda x: x[0])),
-#     }
-#     return HttpResponse(template.render(context, request))
+@login_required
+def delete_plant(request, plant_id):
+    try:
+        plant = Plant.objects.get(pk=plant_id, user=request.user)
+        plant.delete()
+        return redirect('plants')  
+    except Plant.DoesNotExist:
+        return HttpResponse('Plant not found', status=404)
 
 def plants(request):
     user_plants_only = 'true' == request.GET.get('user_plants', 'false').lower()

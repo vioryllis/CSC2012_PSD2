@@ -22,19 +22,20 @@
             </div>
             
             <div class="action-buttons">
-                <button class="btn" id="water-btn" data-id="{{ plant.plant_id }}">
+                <button class="btn btn-green" id="water-btn" data-id="{{ plant.plant_id }}">
                     <img src="{% static 'farawayfarmer/watering_can_icon.webp' %}" alt="Water" class="button-icon">
                     Water
                 </button>
-                <button class="btn" id="fertilize-btn">
+                <button class="btn btn-green" id="fertilize-btn">
                     <img src="{% static 'farawayfarmer/fertilizer_icon.webp' %}" alt="Fertilize" class="button-icon">
                     Fertilize
                 </button>
-                <button class="btn" id="on-off-btn">
+                <button class="btn btn-green" id="on-off-btn">
                     <img src="{% static 'farawayfarmer/on_off_icon.png' %}" alt="On-Off" class="button-icon">
                     On/Off
                 </button>
             </div>
+            <a href="{% url 'delete_plant' plant.plant_id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this plant?');">Delete Plant</a>
         </div>
     </main>
 </div>
@@ -177,8 +178,11 @@
         margin-top: 10px; /* Adds space above maintenance info */
     }
 
-    .btn {
+    .btn-green {
         background-color: #8BC34A; /* Button background color */
+    }
+
+    .btn {
         border-radius: 20px; /* Rounded corners */
         padding: 10px 20px; /* Button padding */
         border: none; /* Removes border */
@@ -186,13 +190,11 @@
         font-size: 1em; /* Text size */
         margin: 5px; /* Space between buttons */
         display: flex;
-        flex-direction: column; /* Stack icon and text */
         align-items: center;
         justify-content: center;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow for buttons */
-        flex: 1;
     }
-    .btn:hover {
+    .btn-green:hover {
         background-color: #9CCC65; /* Lighter green on hover */
     }
     .button-icon {
