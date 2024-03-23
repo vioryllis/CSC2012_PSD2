@@ -9,6 +9,32 @@ import random
 import json
 from django.views.decorators.csrf import csrf_exempt
 
+def register(request):
+    if request.method == 'POST':
+        # Retrieve form data
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        floor = request.POST.get('floor')
+        
+        # Check if user already exists
+        if User.objects.filter(email=email).exists():
+            error_message = "Email already registered."
+            return render(request, 'register.html', {'error_message': error_message})
+        
+        # Use the custom user manager to create a new user
+        try:
+            user = User.objects.create_user(email=email, name=name, password=password, floor=floor)
+        except ValueError as e:
+            error_message = str(e)
+            return render(request, 'register.html', {'error_message': error_message})
+        
+        return redirect('login')
+        
+    else:
+        # If it's a GET request, just display the registration form
+        return render(request, 'register.html')
+    
 def login(request):
     if request.method == 'POST':
         email = request.POST.get('email')
