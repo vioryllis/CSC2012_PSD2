@@ -96,20 +96,41 @@ def add_plant(request):
     else:
         return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
+# def plants(request):
+#     template = loader.get_template("plants.html")
+#     plants = {}
+#     # sort plants by floor
+#     for plant in Plant.objects.all():
+#         if plant.floor not in plants:
+#             plants[plant.floor] = []
+#         plants[plant.floor].append(plant)
+    
+#     # Sort the plants by floor
+#     context = {
+#         "plants": dict(sorted(plants.items(), key=lambda x: x[0])),
+#     }
+#     return HttpResponse(template.render(context, request))
+
 def plants(request):
-    template = loader.get_template("plants.html")
+    user_plants_only = 'true' == request.GET.get('user_plants', 'false').lower()
+    
+    if user_plants_only:
+        plant_query = Plant.objects.filter(user=request.user)
+    else:
+        plant_query = Plant.objects.all()
+    
     plants = {}
-    # sort plants by floor
-    for plant in Plant.objects.all():
+    for plant in plant_query:
         if plant.floor not in plants:
             plants[plant.floor] = []
         plants[plant.floor].append(plant)
     
-    # Sort the plants by floor
     context = {
         "plants": dict(sorted(plants.items(), key=lambda x: x[0])),
+        "user_plants_only": user_plants_only,  # Pass this to the template to keep track of the current filter state
+        "active_filter": "mine" if user_plants_only else "all",
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, "plants.html", context)
 
 def plant(request, plant_id):
     template = loader.get_template("plant.html")

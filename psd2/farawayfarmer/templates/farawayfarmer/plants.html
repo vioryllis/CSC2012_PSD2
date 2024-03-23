@@ -21,6 +21,10 @@
                         Add Plant
                     </button>
                 </div>
+                <div class="col-12 text-center mt-3">
+                    <a href="?user_plants=true" id="myPlantsBtn" class="btn btn-success {% if active_filter == 'mine' %}btn-active{% endif %}">My Plants</a>
+                    <a href="?user_plants=false" id="allPlantsBtn" class="btn btn-success {% if active_filter == 'all' %}btn-active{% endif %}">All Plants</a>
+                </div>                
             </div>
         </div>
 
@@ -151,6 +155,14 @@
         border-color: #ced4da;
         color: #343a40;
     }
+
+    .btn-active {
+        background-color: #4CAF50; /* Example active color, choose what fits your design */
+    }
+    
+    .btn-inactive {
+        background-color: #A5D6A7; /* Lighter green, for example */
+    }    
 
     .btn-primary {
         background-color: #8BC34A; 
