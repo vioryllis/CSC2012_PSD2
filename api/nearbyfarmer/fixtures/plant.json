@@ -1,0 +1,17 @@
+[
+    {
+      "model": "nearbyfarmer.plant",
+      "pk": 1,
+      "fields": {
+        "user": 1,
+        "name": "Aloe Vera",
+        "floor": "2",
+        "public": true,
+        "last_watered": "2023-01-01T00:00:00Z",
+        "last_fertilized": "2023-01-01T00:00:00Z",
+        "auto_system": true,
+        "min_water_level": "5.5",
+        "amt_to_water": "1.5"
+      }
+    }
+  ]

@@ -1,3 +1,5 @@
 django
 psycopg
 python-dotenv
+django-cors-headers
+requests
