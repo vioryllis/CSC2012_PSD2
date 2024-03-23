@@ -50,29 +50,32 @@ def login_view(request):
     else:
         return render(request, 'login.html')
     
+@login_required 
 def logout_view(request):
     logout(request)
     return redirect('login')
 
-def index(request):
-    template = loader.get_template("dashboard.html")
-    context = {}
-    if not User.objects.all():
-        u = User(name="user", email="user@mail.com", password="password", floor="floor")
-        u.save()
+# @login_required 
+# def index(request):
+#     template = loader.get_template("dashboard.html")
+#     context = {}
+#     if not User.objects.all():
+#         u = User(name="user", email="user@mail.com", password="password", floor="floor")
+#         u.save()
     
-    if not Plant.objects.all():
-        for i in range(10):
-            p = Plant(name="Plant {}".format(i), 
-                      floor="{}".format(random.choice(["1", "2", "3", "4", "5"])), 
-                      public=True, 
-                      auto_system=random.choice([True, False]), 
-                      min_water_level=random.uniform(0, 100), 
-                      amt_to_water=random.uniform(0, 100), 
-                      user=User.objects.all()[0])
-            p.save()
-    return HttpResponse(template.render(context, request))
+#     if not Plant.objects.all():
+#         for i in range(10):
+#             p = Plant(name="Plant {}".format(i), 
+#                       floor="{}".format(random.choice(["1", "2", "3", "4", "5"])), 
+#                       public=True, 
+#                       auto_system=random.choice([True, False]), 
+#                       min_water_level=random.uniform(0, 100), 
+#                       amt_to_water=random.uniform(0, 100), 
+#                       user=User.objects.all()[0])
+#             p.save()
+#     return HttpResponse(template.render(context, request))
 
+@login_required 
 @csrf_exempt
 def add_plant(request):
     if request.method == 'POST':
@@ -130,6 +133,7 @@ def delete_plant(request, plant_id):
     except Plant.DoesNotExist:
         return HttpResponse('Plant not found', status=404)
 
+@login_required 
 def plants(request):
     user_plants_only = 'true' == request.GET.get('user_plants', 'false').lower()
     
@@ -151,6 +155,7 @@ def plants(request):
     }
     return render(request, "plants.html", context)
 
+@login_required 
 def plant(request, plant_id):
     template = loader.get_template("plant.html")
     context = {
@@ -267,3 +272,16 @@ def get_current_water_level_for_plant(plant_id):
         return latest_sensor_data.water_level
     else:
         return None
+    
+@login_required 
+def dashboard(request):
+    # Filter plants by the current user
+    user_plants = Plant.objects.filter(user=request.user)
+    total_user_plants = user_plants.count()
+
+    context = {
+        'total_user_plants': total_user_plants,
+        'user': request.user,
+    }
+
+    return render(request, 'dashboard.html', context)

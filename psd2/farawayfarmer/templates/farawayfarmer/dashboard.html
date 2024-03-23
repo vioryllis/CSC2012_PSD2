@@ -17,29 +17,13 @@
     <!-- Main content container -->
     <div class="rounded-container p-4">
         <!-- Dashboard content goes here -->
-        <h1>Welcome, USER</h1>
+        <h1>Welcome, {{ user.name }}</h1>
         <div class="row">
             <div class="col-md-6">
                 <div class="card mb-3">
                     <div class="card-body">
-                        <h5 class="card-title">Total number of floors</h5>
-                        <p class="card-text">5</p>
-                    </div>
-                </div>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Total number of plants</h5>
-                        <p class="card-text">150</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Warnings <span class="mr-2"><i class="fas fa-exclamation-triangle text-warning"></i></span></h5>
-                        
-
-                        <p class="card-text">Number of plants require watering: 20<br>Number of plants require fertilizing: 10</p>
+                        <h5 class="card-title">Total number of your plants</h5>
+                        <p class="card-text">{{ total_user_plants }}</p>
                     </div>
                 </div>
             </div>
