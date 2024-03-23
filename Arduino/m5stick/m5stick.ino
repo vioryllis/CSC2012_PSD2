@@ -4,9 +4,9 @@
 
 const char* ssid = "cookiie";
 const char* password = "rllr4884";
-const char* serverName = "http://192.168.133.159:8000/api/data"; // POST url
-const char* sendServer = "http://192.168.133.159:8000/api/water_plant/"; // GET url
-const char* fertilizer = "http://192.168.133.159:8000/api/fertilize_plant/";
+const char* serverName = "http://192.168.50.52:8000/api/data"; // POST url
+const char* sendServer = "http://192.168.50.52:8000/api/water_plant/"; // GET url
+const char* fertilizer = "http://192.168.50.52:8000/api/fertilize_plant/";
 
 // const char* ssid = "raidensupremacy";
 // const char* password = "matchasupremacy";
@@ -126,5 +126,5 @@ void loop() {
   else {
     Serial.println("WiFi Disconnected");
   }
-  delay(10000); // Send data every 10 seconds
+  delay(5000); // Send data every 10 seconds
 }
