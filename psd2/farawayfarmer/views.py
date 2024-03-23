@@ -136,7 +136,7 @@ def plants(request):
     if user_plants_only:
         plant_query = Plant.objects.filter(user=request.user)
     else:
-        plant_query = Plant.objects.all()
+        plant_query = Plant.objects.filter(public=True)
     
     plants = {}
     for plant in plant_query:
