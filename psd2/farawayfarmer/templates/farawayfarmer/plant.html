@@ -36,7 +36,7 @@
                     <img src="{% static 'farawayfarmer/fertilizer_icon.webp' %}" alt="Fertilize" class="button-icon">
                     Fertilize
                 </button>
-                <button class="btn btn-green" id="on-off-btn">
+                <button class="btn btn-green" id="on-off-btn" data-id="{{ plant.plant_id }}">
                     <img src="{% static 'farawayfarmer/on_off_icon.png' %}" alt="On-Off" class="button-icon">
                     On/Off
                 </button>
@@ -59,7 +59,7 @@
                 <label for="amount-to-water">Amount to water:</label>
                 <input type="number" id="amount-to-water" name="amount-to-water" placeholder="Enter amount to water" aria-describedby="amountToWaterHelp">
             </div>
-            <div class="form-row" data-id="{{ plant.plant_id }}">
+            <div class="form-row">
                 <button type="submit" class="confirm-button">Confirm</button>
             </div>
         </form>
@@ -172,10 +172,14 @@
     document.getElementById('water-level-form').addEventListener('submit', function(event) {
         event.preventDefault();
         var plantId = this.getAttribute('data-id'); // Get individual ID from button data attribute
+        const min_water_level = document.getElementById('min-water-level').value;
+        const amount_to_water = document.getElementById('amount-to-water').value;
         var requestData = {
-            'plant_id': plantId
+            'plant_id': 11,
+            'min_water_level': min_water_level,
+            'amt_to_water': amount_to_water
         };
-
+        console.log(requestData)
         // Make AJAX POST request
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "http://localhost:8001/plants/update_plant_settings/", true);

@@ -12,6 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils.safestring import mark_safe
+from decimal import Decimal
 
 def register(request):
     if request.method == 'POST':
@@ -245,7 +246,12 @@ def update_plant_settings(request):
 def check_and_water_plant(plant):
     print("CALLED check_and_water_plant FUNCTION!")
     current_water_level = get_current_water_level_for_plant(plant.plant_id)
-    if current_water_level < plant.min_water_level:
+      # Convert plant.min_water_level to Decimal if it's a string
+    plant_min_water_level = Decimal(plant.min_water_level)
+
+    print("logging purposes", current_water_level, plant_min_water_level)
+    if current_water_level < plant_min_water_level:
+        print("i went in frfr")
         response = water_plant(plant)
         print(f"Action taken for plant {plant.plant_id}: {response}")
     else:
@@ -265,12 +271,12 @@ def water_plant(plant):
         return {"status_code": 500, "message": str(e)}
 
 def get_current_water_level_for_plant(plant_id):
+    
     # Get the plant by ID
     plant = get_object_or_404(Plant, pk=plant_id)
 
     # Query the SensorData entry with the largest sensor_data_id for the given plant
     latest_sensor_data = SensorData.objects.filter(plant=plant).order_by('-sensor_data_id').first()
-
     if latest_sensor_data:
         return latest_sensor_data.water_level
     else:
