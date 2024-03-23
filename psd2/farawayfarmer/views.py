@@ -186,7 +186,6 @@ def call_water_plant(request):
         except json.JSONDecodeError as e:
             return JsonResponse({"error": "Invalid JSON data"}, status=400)
     else:
-        print("post not working")
         return JsonResponse({"error": "Invalid request method"}, status=405)
 
 @csrf_exempt
@@ -207,7 +206,6 @@ def call_fertilize_plant(request):
         except json.JSONDecodeError as e:
             return JsonResponse({"error": "Invalid JSON data"}, status=400)
     else:
-        print("post not working")
         return JsonResponse({"error": "Invalid request method"}, status=405)
 
 @csrf_exempt
@@ -248,10 +246,7 @@ def check_and_water_plant(plant):
     current_water_level = get_current_water_level_for_plant(plant.plant_id)
       # Convert plant.min_water_level to Decimal if it's a string
     plant_min_water_level = Decimal(plant.min_water_level)
-
-    print("logging purposes", current_water_level, plant_min_water_level)
     if current_water_level < plant_min_water_level:
-        print("i went in frfr")
         response = water_plant(plant)
         print(f"Action taken for plant {plant.plant_id}: {response}")
     else:
@@ -264,6 +259,7 @@ def water_plant(plant):
         "amount_to_water": str(plant.amt_to_water)
     }
     url = "http://localhost:8000/api/water_plant_amt/"
+    print(data_to_send_over)
     try:
         response = requests.post(url, json=data_to_send_over)
         return {"status_code": response.status_code, "message": "Request sent"}
