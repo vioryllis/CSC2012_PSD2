@@ -10,14 +10,17 @@
         </div>
         <div class="info-and-actions">
             <div class="plant-info">
-                <h2>Plant Name/ID</h2>
-                <p><strong>Water Level:</strong> Good</p>
-                <p><strong>Nutrients:</strong> Sufficient</p>
+                <h2>Plant Name/ID: {{ plant.name }}</h2>
+                <p><strong>Floor:</strong> {{ plant.floor }}</p>
+                <p><strong>Public:</strong> {{ plant.public|yesno:"Yes,No" }}</p>
+                <p><strong>Water Level:</strong> Minimum {{ plant.min_water_level }}ml, Amount to Water {{ plant.amt_to_water }}ml</p>
                 <div class="plant-maintenance-info">
-                    <p><strong>Last watered:</strong> 3 days ago</p>
-                    <p><strong>Last fertilized:</strong> 5 days ago</p>
+                    <p><strong>Last watered:</strong> {{ plant.last_watered|date:"F j, Y, P" }}</p>
+                    <p><strong>Last fertilized:</strong> {{ plant.last_fertilized|date:"F j, Y, P" }}</p>
                 </div>
+                <p><strong>Automatic Watering System Enabled:</strong> {{ plant.auto_system|yesno:"Yes,No" }}</p>
             </div>
+            
             <div class="action-buttons">
                 <button class="btn" id="water-btn" data-id="{{ plant.plant_id }}">
                     <img src="{% static 'farawayfarmer/watering_can_icon.webp' %}" alt="Water" class="button-icon">
