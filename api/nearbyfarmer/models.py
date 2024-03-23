@@ -16,6 +16,9 @@ class CustomUserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser):
+    class Meta:
+        db_table = "user"
+        managed = False
     user_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
@@ -31,6 +34,9 @@ class User(AbstractBaseUser):
         return self.name
 
 class Plant(models.Model):
+    class Meta:
+        db_table = "plant"
+        managed = False
     plant_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='plants')
     name = models.CharField(max_length=100)
@@ -46,6 +52,9 @@ class Plant(models.Model):
         return self.name
 
 class SensorData(models.Model):
+    class Meta:
+        db_table = "sensordata"
+        managed = False
     sensor_data_id = models.AutoField(primary_key=True)
     water_level = models.DecimalField(max_digits=5, decimal_places=2)
     nutrient_level = models.DecimalField(max_digits=5, decimal_places=2)
