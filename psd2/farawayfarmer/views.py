@@ -185,17 +185,6 @@ def call_water_plant(request):
         print("post not working")
         return JsonResponse({"error": "Invalid request method"}, status=405)
 
-    # data = {"plant_id": "1"}
-    
-    # # Make the POST request
-    # response = requests.post(url, json=data)
-    
-    # if response.status_code == 200:
-    #     print("POST SUCCESS FROM PSD2: ", response)
-    #     return JsonResponse(response.json())
-    # else:
-    #     return JsonResponse({"error": "Failed to call water_plant in on api side"}, status=response.status_code)
-
 @csrf_exempt
 def call_fertilize_plant(request):
     url = "http://localhost:8000/api/fertilize_plant/"
@@ -210,25 +199,13 @@ def call_fertilize_plant(request):
                 print("POST SUCCESS FROM PSD2: ", response)
                 return JsonResponse(response.json())
             else:
-                return JsonResponse({"error": "Failed to call fertilize_plant in on api side"}, status=response.status_code)
+                return JsonResponse({"error": "Failed to call fertilize_plant on api side"}, status=response.status_code)
         except json.JSONDecodeError as e:
             return JsonResponse({"error": "Invalid JSON data"}, status=400)
     else:
         print("post not working")
         return JsonResponse({"error": "Invalid request method"}, status=405)
 
-
-    # data = {"plant_id": "1"}
-    
-    # # Make the POST request
-    # response = requests.post(url, json=data)
-    
-    # if response.status_code == 200:
-    #     print("POST SUCCESS FROM PSD2: ", response)
-    #     return JsonResponse(response.json())
-    # else:
-    #     return JsonResponse({"error": "Failed to call fertilize_plant in on api side"}, status=response.status_code)
-    
 @csrf_exempt
 def update_plant_settings(request):
     if request.method == "POST":
@@ -237,6 +214,8 @@ def update_plant_settings(request):
             plant_id = data['plant_id']
             min_water_level = data['min_water_level']
             amt_to_water = data['amt_to_water']
+
+            print("CALLED UPDATE PLANT SETTINGS!")
 
             # Find the plant and update its settings
             plant, created = Plant.objects.update_or_create(
@@ -261,6 +240,7 @@ def update_plant_settings(request):
         return JsonResponse({"status": "error", "message": "Only POST requests are allowed"}, status=405)
 
 def check_and_water_plant(plant):
+    print("CALLED check_and_water_plant FUNCTION!")
     current_water_level = get_current_water_level_for_plant(plant.plant_id)
     if current_water_level < plant.min_water_level:
         response = water_plant(plant)
@@ -269,6 +249,7 @@ def check_and_water_plant(plant):
         print(f"No action needed for plant {plant.plant_id}")
 
 def water_plant(plant):
+    print("CALLED water_plant FUNCTION!")
     data_to_send_over = {
         "plant_id": plant.plant_id,
         "amount_to_water": str(plant.amt_to_water)

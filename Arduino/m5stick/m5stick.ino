@@ -7,6 +7,7 @@ const char* password = "rllr4884";
 const char* serverName = "http://192.168.248.159:8000/api/data"; // POST url
 const char* sendServer = "http://192.168.248.159:8000/api/water_plant/"; // GET url
 const char* fertilizer = "http://192.168.248.159:8000/api/fertilize_plant/";
+const char* plantSettings = "http://192.168.248.159:8000/api/water_plant_amt/";
 
 // const char* ssid = "cookiie";
 // const char* password = "rllr4884";
@@ -127,6 +128,37 @@ void loop() {
     }
 
     http_fertilize.end();
+
+    delay(1000);
+
+    // GET REQUEST (for plant settings)
+    HTTPClient http_settings;
+    http_settings.begin(plantSettings);
+    http_settings.addHeader("Content-Type", "application/json");
+
+    int getSettings = http_settings.GET();
+    
+    if(getSettings > 0) {
+      String get_Settings = http_settings.getString();
+      Serial.println(getSettings);
+      Serial.println(get_Settings);
+
+      // Display response on the M5StickC Plus
+      M5.Lcd.fillScreen(BLACK);
+      M5.Lcd.setTextSize(2);
+      M5.Lcd.setTextColor(WHITE);
+      M5.Lcd.setCursor(0, 0);
+      M5.Lcd.println("Response:");
+      M5.Lcd.setTextSize(1);
+      M5.Lcd.println(getSettings);
+      M5.Lcd.println(get_Settings);
+    }
+    else {
+      Serial.print("Error on sending GET: ");
+      Serial.println(getSettings);
+    }
+
+    http_settings.end();
   }
 
   else {

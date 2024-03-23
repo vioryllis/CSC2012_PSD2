@@ -59,7 +59,7 @@
                 <label for="amount-to-water">Amount to water:</label>
                 <input type="number" id="amount-to-water" name="amount-to-water" placeholder="Enter amount to water" aria-describedby="amountToWaterHelp">
             </div>
-            <div class="form-row">
+            <div class="form-row" data-id="{{ plant.plant_id }}">
                 <button type="submit" class="confirm-button">Confirm</button>
             </div>
         </form>
@@ -171,7 +171,28 @@
     // Handle the form submission
     document.getElementById('water-level-form').addEventListener('submit', function(event) {
         event.preventDefault();
-        // Add logic here to handle the updated water level input
+        var plantId = this.getAttribute('data-id'); // Get individual ID from button data attribute
+        var requestData = {
+            'plant_id': plantId
+        };
+
+        // Make AJAX POST request
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:8001/plants/update_plant_settings/", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log("Plant settings updated successfully");
+                    // Optionally, perform any additional actions upon success
+                } else {
+                    console.error("Failed to update plant settings:", xhr.responseText);
+                    // Optionally, handle error response
+                }
+            }
+        };
+        xhr.send(JSON.stringify(requestData));
+
         toggleModal(); // Close the modal after form submission
     });
 
