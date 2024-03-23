@@ -44,12 +44,12 @@
                     <div class="col-10 card level-plants">
                         <div class="row">
                             <div class="plant">
-                                <img class="plant-image" src="https://png.pngtree.com/png-clipart/20220916/original/pngtree-elevator-door-with-up-and-down-button-png-image_8619899.png" alt="Door Image">
+                                <img class="plant-image" src="{% static 'farawayfarmer/elevator.png' %}" alt="Door Image">
                             </div>
                             {% for plant in floor.1 %}
                             <div class="card plant">
                                 <a class="text-center" href="/plants/{{plant.plant_id}}">
-                                    <img src="https://www.trees.com/wp-content/uploads/files/inline-images/kratky-method_0.png" alt="Plant Image" class="plant-image">
+                                    <img src="{% static 'farawayfarmer/hydroponic_plant.png' %}" alt="Plant Image" class="plant-image">
                                     {{ plant.name }}
                                 </a>
                             </div>
