@@ -13,6 +13,17 @@
             </div>
             {% endfor %}
         </div>
+
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-12 text-center mt-5">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPlantModal">
+                        Add Plant
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div class="building row">
             {% for floor in plants.items%}
             <div class="row">
@@ -49,15 +60,108 @@
         <div id="ground" class="row align-self-end"></div>
     </div>
 </div>
-    
 
-<script>
+<!-- Modal -->
+<div class="modal fade" id="addPlantModal" tabindex="-1" aria-labelledby="addPlantModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addPlantModalLabel">Add New Plant</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addPlantForm">
+                    <div class="mb-3">
+                        <label for="plantName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="plantName" name="plantName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="isPublic" class="form-label">Public</label>
+                        <select class="form-select" id="isPublic" name="isPublic">
+                            <option value="True">Yes</option>
+                            <option value="False">No</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Plant</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <script>
     window.scrollTo(0, document.body.scrollHeight);
-</script>
+    document.getElementById('addPlantForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        
+        // Get form data
+        var formData = new FormData(this);
+    
+        // Add current user's ID to form data
+        formData.append('user_id', '{{ request.user.id }}'); // Assumes you have access to the current user in the template
+    
+        // Send AJAX request to submit form
+        fetch('/add-plant/', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => {
+          if (response.ok) {
+            location.reload();
+          } else {
+            // Handle error
+            console.error('Error adding plant');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      });
+    </script>
+
+
 <style>
     body {
         background: #87CEEB;
     }
+    
+    .modal-content {
+        background-color: #f8f9fa;
+        border-radius: 15px;
+    }
+
+    .modal-header {
+        border-bottom: none;
+    }
+
+    .modal-title {
+        color: #343a40;
+    }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    .form-label {
+        color: #343a40;
+    }
+
+    .form-control {
+        background-color: #e9ecef;
+        border-color: #ced4da;
+        color: #343a40;
+    }
+
+    .btn-primary {
+        background-color: #8BC34A; 
+        border-color: #8BC34A;
+    }
+    
+    .btn-primary:hover {
+        background-color: #7DAF3C; 
+        border-color: #7DAF3C; 
+    }
+    
     .window {
         margin:0;
         height: 100%;

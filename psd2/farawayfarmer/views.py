@@ -72,6 +72,30 @@ def index(request):
             p.save()
     return HttpResponse(template.render(context, request))
 
+@csrf_exempt
+def add_plant(request):
+    if request.method == 'POST':
+        # Get form data
+        name = request.POST.get('plantName')
+        is_public = request.POST.get('isPublic')
+        user_id = request.user.user_id 
+        floor = request.user.floor
+        default_value = 50
+        
+        # Save plant to database
+        plant = Plant.objects.create(
+            name=name,
+            floor=floor,
+            public=is_public,
+            min_water_level=default_value,
+            amt_to_water=default_value,
+            user_id=user_id,
+        )
+        
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
 def plants(request):
     template = loader.get_template("plants.html")
     plants = {}
