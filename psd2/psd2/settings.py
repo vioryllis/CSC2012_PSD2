@@ -59,7 +59,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",  # Allow requests from this origin
+    "http://localhost:8001",  # Allow requests from this origin
 ]
 
 ROOT_URLCONF = 'psd2.urls'

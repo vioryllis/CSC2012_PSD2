@@ -83,6 +83,7 @@ def call_water_plant(request):
         except json.JSONDecodeError as e:
             return JsonResponse({"error": "Invalid JSON data"}, status=400)
     else:
+        print("LALALALALA")
         return JsonResponse({"error": "Invalid request method"}, status=405)
 
     # data = {"plant_id": "1"}
