@@ -106,8 +106,8 @@ def water_plant_amt(request):
         try:
             data = json.loads(request.body)
             plant_id = data.get('plant_id')
-            amount_to_water = data.get('amt_to_water')
-            last_message_water = "Watering plant " + plant_id + " with " + amount_to_water + "ml!"
+            amount_to_water = data.get('amount_to_water')
+            last_message_water = "Watering plant " + str(plant_id) + " with " + amount_to_water + "ml!"
             return JsonResponse({"message": last_message_water})
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON"}, status=400)

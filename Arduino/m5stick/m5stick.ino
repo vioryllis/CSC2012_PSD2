@@ -67,71 +67,71 @@ void loop() {
     // http.end();
 
     // Delay before initiating the GET request
-    delay(1000);
+    // delay(1000);
 
-    // GET REQUEST
-    HTTPClient http_get;
-    http_get.begin(sendServer);
-    http_get.addHeader("Content-Type", "application/json");
+    // // GET REQUEST
+    // HTTPClient http_get;
+    // http_get.begin(sendServer);
+    // http_get.addHeader("Content-Type", "application/json");
 
-    int getResponseCode = http_get.GET();
+    // int getResponseCode = http_get.GET();
     
-    if(getResponseCode > 0) {
-      String get_response = http_get.getString();
-      Serial.println(getResponseCode);
-      Serial.println(get_response);
+    // if(getResponseCode > 0) {
+    //   String get_response = http_get.getString();
+    //   Serial.println(getResponseCode);
+    //   Serial.println(get_response);
 
-      // Display response on the M5StickC Plus
-      M5.Lcd.fillScreen(BLACK);
-      M5.Lcd.setTextSize(2);
-      M5.Lcd.setTextColor(WHITE);
-      M5.Lcd.setCursor(0, 0);
-      M5.Lcd.println("Response:");
-      M5.Lcd.setTextSize(1);
-      M5.Lcd.println(getResponseCode);
-      M5.Lcd.println(get_response);
-    }
-    else {
-      Serial.print("Error on sending GET: ");
-      Serial.println(getResponseCode);
-    }
+    //   // Display response on the M5StickC Plus
+    //   M5.Lcd.fillScreen(BLACK);
+    //   M5.Lcd.setTextSize(2);
+    //   M5.Lcd.setTextColor(WHITE);
+    //   M5.Lcd.setCursor(0, 0);
+    //   M5.Lcd.println("Response:");
+    //   M5.Lcd.setTextSize(1);
+    //   M5.Lcd.println(getResponseCode);
+    //   M5.Lcd.println(get_response);
+    // }
+    // else {
+    //   Serial.print("Error on sending GET: ");
+    //   Serial.println(getResponseCode);
+    // }
 
-    http_get.end();
+    // http_get.end();
 
-    delay(1000);
+    // delay(1000);
 
-    // GET REQUEST (for fertilizer)
-    HTTPClient http_fertilize;
-    http_fertilize.begin(fertilizer);
-    http_fertilize.addHeader("Content-Type", "application/json");
+    // // GET REQUEST (for fertilizer)
+    // HTTPClient http_fertilize;
+    // http_fertilize.begin(fertilizer);
+    // http_fertilize.addHeader("Content-Type", "application/json");
 
-    int getFertilizer = http_fertilize.GET();
+    // int getFertilizer = http_fertilize.GET();
     
-    if(getFertilizer > 0) {
-      String get_fertilizer = http_fertilize.getString();
-      Serial.println(getFertilizer);
-      Serial.println(get_fertilizer);
+    // if(getFertilizer > 0) {
+    //   String get_fertilizer = http_fertilize.getString();
+    //   Serial.println(getFertilizer);
+    //   Serial.println(get_fertilizer);
 
-      // Display response on the M5StickC Plus
-      M5.Lcd.fillScreen(BLACK);
-      M5.Lcd.setTextSize(2);
-      M5.Lcd.setTextColor(WHITE);
-      M5.Lcd.setCursor(0, 0);
-      M5.Lcd.println("Response:");
-      M5.Lcd.setTextSize(1);
-      M5.Lcd.println(getFertilizer);
-      M5.Lcd.println(get_fertilizer);
-    }
-    else {
-      Serial.print("Error on sending GET: ");
-      Serial.println(getFertilizer);
-    }
+    //   // Display response on the M5StickC Plus
+    //   M5.Lcd.fillScreen(BLACK);
+    //   M5.Lcd.setTextSize(2);
+    //   M5.Lcd.setTextColor(WHITE);
+    //   M5.Lcd.setCursor(0, 0);
+    //   M5.Lcd.println("Response:");
+    //   M5.Lcd.setTextSize(1);
+    //   M5.Lcd.println(getFertilizer);
+    //   M5.Lcd.println(get_fertilizer);
+    // }
+    // else {
+    //   Serial.print("Error on sending GET: ");
+    //   Serial.println(getFertilizer);
+    // }
 
-    http_fertilize.end();
+    // http_fertilize.end();
 
-    delay(1000);
+    // delay(1000);
 
-    // GET REQUEST (for plant settings)
+    // // GET REQUEST (for plant settings)
     HTTPClient http_settings;
     http_settings.begin(plantSettings);
     http_settings.addHeader("Content-Type", "application/json");
@@ -164,5 +164,5 @@ void loop() {
   else {
     Serial.println("WiFi Disconnected");
   }
-  delay(5000); // Send data every 5 seconds
+  delay(10000); // Send data every 5 seconds
 }
