@@ -8,9 +8,14 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg" style="background-color: #8DBD77;">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8DBD77;">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">FarAwayFarmer</a>
+            <div class="d-flex ms-auto">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="btn btn-danger ms-auto">Log Out</a>
+                {% endif %}
+            </div>
         </div>
     </nav>
     <div>{% block content %}{% endblock %}</div>
