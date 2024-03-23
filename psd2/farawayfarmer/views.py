@@ -35,7 +35,7 @@ def register(request):
         # If it's a GET request, just display the registration form
         return render(request, 'register.html')
     
-def login(request):
+def login_view(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -109,6 +109,7 @@ def call_water_plant(request):
         except json.JSONDecodeError as e:
             return JsonResponse({"error": "Invalid JSON data"}, status=400)
     else:
+        print("post not working")
         return JsonResponse({"error": "Invalid request method"}, status=405)
 
     # data = {"plant_id": "1"}
