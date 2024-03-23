@@ -32,7 +32,7 @@
                     <img src="{% static 'farawayfarmer/watering_can_icon.webp' %}" alt="Water" class="button-icon">
                     Water
                 </button>
-                <button class="btn btn-green" id="fertilize-btn">
+                <button class="btn btn-green" id="fertilize-btn" data-id="{{ plant.plant_id }}">
                     <img src="{% static 'farawayfarmer/fertilizer_icon.webp' %}" alt="Fertilize" class="button-icon">
                     Fertilize
                 </button>
@@ -123,12 +123,26 @@
         };
         var data = JSON.stringify({"plant.plant_id": plantId}); // Send individual ID in JSON format
         xhr.send(data);
-
     });
 
     // Logic for fertilizing the plant
     document.getElementById('fertilize-btn').addEventListener('click', function() {
-        // Add fertilizing logic here
+        var plantId = this.getAttribute('data-id'); // Get individual ID from button data attribute
+        // Make AJAX call to Django view
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:8001/plants/call_fertilize_plant/", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log("Fertilizing successful");
+                // Handle success response
+            } else {
+                console.error("Failed to fertilize plant:", xhr.responseText);
+                // Handle error response
+            }
+        };
+        var data = JSON.stringify({"plant.plant_id": plantId}); // Send individual ID in JSON format
+        xhr.send(data);
     });
 
     // Modal logic

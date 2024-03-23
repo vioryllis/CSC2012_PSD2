@@ -4,9 +4,15 @@
 
 const char* ssid = "cookiie";
 const char* password = "rllr4884";
-const char* serverName = "http://192.168.50.52:8000/api/data"; // POST url
-const char* sendServer = "http://192.168.50.52:8000/api/water_plant/"; // GET url
-const char* fertilizer = "http://192.168.50.52:8000/api/fertilize_plant/";
+const char* serverName = "http://192.168.248.159:8000/api/data"; // POST url
+const char* sendServer = "http://192.168.248.159:8000/api/water_plant/"; // GET url
+const char* fertilizer = "http://192.168.248.159:8000/api/fertilize_plant/";
+
+// const char* ssid = "cookiie";
+// const char* password = "rllr4884";
+// const char* serverName = "http://192.168.50.52:8000/api/data"; // POST url
+// const char* sendServer = "http://192.168.50.52:8000/api/water_plant/"; // GET url
+// const char* fertilizer = "http://192.168.50.52:8000/api/fertilize_plant/";
 
 // const char* ssid = "raidensupremacy";
 // const char* password = "matchasupremacy";
@@ -31,33 +37,33 @@ void loop() {
     http.addHeader("Content-Type", "application/json");
 
     // POST REQUEST
-    String postRequestData = "{\"water_level\":10.5,\"nutrient_level\":5.2,\"plant_id\":1}";
-    int postResponseCode = http.POST(postRequestData);
+    // String postRequestData = "{\"water_level\":10.5,\"nutrient_level\":5.2,\"plant_id\":1}";
+    // int postResponseCode = http.POST(postRequestData);
 
-    if(postResponseCode > 0) {
-      String post_response = http.getString();
-      Serial.println("POST Success:");
-      Serial.println(postResponseCode);
-      Serial.println(post_response);
+    // if(postResponseCode > 0) {
+    //   String post_response = http.getString();
+    //   Serial.println("POST Success:");
+    //   Serial.println(postResponseCode);
+    //   Serial.println(post_response);
 
-      // Display temperature and response on the M5StickC Plus
-      M5.Lcd.fillScreen(BLACK);
-      M5.Lcd.setTextSize(2);
-      M5.Lcd.setTextColor(WHITE);
-      M5.Lcd.setCursor(0, 0);
-      M5.Lcd.println("Temperature:");
-      M5.Lcd.println("Response:");
-      M5.Lcd.setTextSize(1);
-      M5.Lcd.println(postResponseCode);
-      M5.Lcd.println(post_response);
-    }
-    else {
-      Serial.print("Error on sending POST: ");
-      Serial.println(postResponseCode);
-      Serial.println(http.errorToString(postResponseCode));
-    }
+    //   // Display temperature and response on the M5StickC Plus
+    //   M5.Lcd.fillScreen(BLACK);
+    //   M5.Lcd.setTextSize(2);
+    //   M5.Lcd.setTextColor(WHITE);
+    //   M5.Lcd.setCursor(0, 0);
+    //   M5.Lcd.println("Temperature:");
+    //   M5.Lcd.println("Response:");
+    //   M5.Lcd.setTextSize(1);
+    //   M5.Lcd.println(postResponseCode);
+    //   M5.Lcd.println(post_response);
+    // }
+    // else {
+    //   Serial.print("Error on sending POST: ");
+    //   Serial.println(postResponseCode);
+    //   Serial.println(http.errorToString(postResponseCode));
+    // }
 
-    http.end();
+    // http.end();
 
     // Delay before initiating the GET request
     delay(1000);
@@ -126,5 +132,5 @@ void loop() {
   else {
     Serial.println("WiFi Disconnected");
   }
-  delay(5000); // Send data every 10 seconds
+  delay(5000); // Send data every 5 seconds
 }
