@@ -6,20 +6,20 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('nearbyfarmer', '0001_initial'),
+        ('nearbyfarmer', '0002_alter_plant_options_alter_sensordata_options_and_more'),
     ]
 
     operations = [
-        migrations.AlterModelOptions(
+        migrations.AlterModelTable(
             name='plant',
-            options={'managed': False},
+            table='plant',
         ),
-        migrations.AlterModelOptions(
+        migrations.AlterModelTable(
             name='sensordata',
-            options={'managed': False},
+            table='sensordata',
         ),
-        migrations.AlterModelOptions(
+        migrations.AlterModelTable(
             name='user',
-            options={'managed': False},
+            table='user',
         ),
     ]
