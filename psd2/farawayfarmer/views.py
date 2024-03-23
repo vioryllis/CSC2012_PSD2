@@ -98,6 +98,30 @@ def add_plant(request):
         return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 @login_required
+@csrf_exempt
+def update_plant_name(request, plant_id):
+    data = json.loads(request.body)
+    try:
+        plant = Plant.objects.get(pk=plant_id, user=request.user)
+        plant.name = data.get('name')
+        plant.save()
+        return JsonResponse({"success": "Plant name updated successfully."})
+    except Plant.DoesNotExist:
+        return JsonResponse({"error": "Plant not found."}, status=404)
+
+@login_required
+@csrf_exempt
+def update_plant_public(request, plant_id):
+    data = json.loads(request.body)
+    try:
+        plant = Plant.objects.get(pk=plant_id, user=request.user)
+        plant.public = data.get('public', False)
+        plant.save()
+        return JsonResponse({"success": "Plant public status updated successfully."})
+    except Plant.DoesNotExist:
+        return JsonResponse({"error": "Plant not found."}, status=404)
+
+@login_required
 def delete_plant(request, plant_id):
     try:
         plant = Plant.objects.get(pk=plant_id, user=request.user)
