@@ -21,6 +21,11 @@ def receive_data(request):
             water_level = data['water_level']
             nutrient_level = data['nutrient_level']
             plant_id = data['plant_id']
+
+            sensor_data_table_name = SensorData._meta.db_table
+            plant_table_name = Plant._meta.db_table
+            print(f"Accessing SensorData database table: {sensor_data_table_name}")
+            print(f"Accessing Plant database table: {plant_table_name}")
             
             # Retrieve the plant instance associated with plant_id
             plant = Plant.objects.get(pk=plant_id)

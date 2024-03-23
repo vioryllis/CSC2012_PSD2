@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 import requests
 from django.http import JsonResponse
 from .models import User, Plant, SensorData
@@ -48,6 +48,10 @@ def login_view(request):
             return render(request, 'login.html', {'error_message': error_message})
     else:
         return render(request, 'login.html')
+    
+def logout_view(request):
+    logout(request)
+    return redirect('login')
 
 def index(request):
     template = loader.get_template("dashboard.html")
