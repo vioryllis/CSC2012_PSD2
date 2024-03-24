@@ -14,6 +14,8 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.utils.safestring import mark_safe
 from decimal import Decimal
 
+hostname = "http://nearbyfarmer:8000"
+
 def register(request):
     if request.method == 'POST':
         # Retrieve form data
@@ -170,7 +172,7 @@ def plant(request, plant_id):
 
 @csrf_exempt
 def call_water_plant(request):
-    url = "http://localhost:8000/api/water_plant/"
+    url = hostname + "/api/water_plant/"
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -190,7 +192,7 @@ def call_water_plant(request):
 
 @csrf_exempt
 def call_fertilize_plant(request):
-    url = "http://localhost:8000/api/fertilize_plant/"
+    url = hostname + "/api/fertilize_plant/"
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -258,7 +260,7 @@ def water_plant(plant):
         "plant_id": plant.plant_id,
         "amount_to_water": str(plant.amt_to_water)
     }
-    url = "http://localhost:8000/api/water_plant_amt/"
+    url = hostname + "/api/water_plant_amt/"
     print(data_to_send_over)
     try:
         response = requests.post(url, json=data_to_send_over)
