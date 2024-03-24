@@ -246,8 +246,9 @@ def update_plant_settings(request):
 def check_and_water_plant(plant):
     print("CALLED check_and_water_plant FUNCTION!")
     current_water_level = get_current_water_level_for_plant(plant.plant_id)
-      # Convert plant.min_water_level to Decimal if it's a string
     plant_min_water_level = Decimal(plant.min_water_level)
+    print("current min water level: ", plant_min_water_level)
+    print("current water level: ", current_water_level)
     if current_water_level < plant_min_water_level:
         response = water_plant(plant)
         print(f"Action taken for plant {plant.plant_id}: {response}")
