@@ -7,6 +7,7 @@ const char* ssid = "NETWORK_NAME";
 const char* password = "NETWORK_PW"; 
 
 // change to own ip address eg. "http://IPADDRESS:8000/api/data"
+// have to follow docker's host address if using docker implementation
 const char* serverName = "http://192.168.248.159:8000/api/data"; // POST url
 const char* waterPlant = "http://192.168.248.159:8000/api/water_plant/"; // GET url
 const char* fertilizePlant = "http://192.168.248.159:8000/api/fertilize_plant/"; // GET url
