@@ -1,25 +1,16 @@
 #include <WiFi.h>
-#include <M5StickCPlus.h> // Include M5StickCPlus library
+#include <M5StickCPlus.h>
 #include <HTTPClient.h>
 
-const char* ssid = "cookiie";
-const char* password = "rllr4884";
+// change accordingly to connect your own network
+const char* ssid = "NETWORK_NAME";
+const char* password = "NETWORK_PW"; 
+
+// change to own ip address eg. "http://IPADDRESS:8000/api/data"
 const char* serverName = "http://192.168.248.159:8000/api/data"; // POST url
-const char* sendServer = "http://192.168.248.159:8000/api/water_plant/"; // GET url
-const char* fertilizer = "http://192.168.248.159:8000/api/fertilize_plant/";
-const char* plantSettings = "http://192.168.248.159:8000/api/water_plant_amt/";
-
-// const char* ssid = "cookiie";
-// const char* password = "rllr4884";
-// const char* serverName = "http://192.168.50.52:8000/api/data"; // POST url
-// const char* sendServer = "http://192.168.50.52:8000/api/water_plant/"; // GET url
-// const char* fertilizer = "http://192.168.50.52:8000/api/fertilize_plant/";
-
-// const char* ssid = "raidensupremacy";
-// const char* password = "matchasupremacy";
-// const char* serverName = "http://172.20.10.5:8000/api/data"; // POST url
-// const char* sendServer = "http://172.20.10.5:8000/api/water_plant/"; // GET url
-// const char* fertilizer = "http://172.20.10.5:8000/api/fertilize_plant/";
+const char* waterPlant = "http://192.168.248.159:8000/api/water_plant/"; // GET url
+const char* fertilizePlant = "http://192.168.248.159:8000/api/fertilize_plant/"; // GET url
+const char* plantSettings = "http://192.168.248.159:8000/api/water_plant_amt/"; // GET url
 
 void setup() {
   M5.begin();
@@ -38,100 +29,104 @@ void loop() {
     http.addHeader("Content-Type", "application/json");
 
     // POST REQUEST
-    // String postRequestData = "{\"water_level\":10.5,\"nutrient_level\":5.2,\"plant_id\":1}";
-    // int postResponseCode = http.POST(postRequestData);
+    String postRequestData = "{\"water_level\":10.5,\"nutrient_level\":5.2,\"plant_id\":17}";
+    int postResponseCode = http.POST(postRequestData);
 
-    // if(postResponseCode > 0) {
-    //   String post_response = http.getString();
-    //   Serial.println("POST Success:");
-    //   Serial.println(postResponseCode);
-    //   Serial.println(post_response);
+    if(postResponseCode > 0) {
+      String post_response = http.getString();
+      Serial.println("POST Success:");
+      Serial.println(postResponseCode);
+      Serial.println(post_response);
+      Serial.println(postRequestData);
 
-    //   // Display temperature and response on the M5StickC Plus
-    //   M5.Lcd.fillScreen(BLACK);
-    //   M5.Lcd.setTextSize(2);
-    //   M5.Lcd.setTextColor(WHITE);
-    //   M5.Lcd.setCursor(0, 0);
-    //   M5.Lcd.println("Temperature:");
-    //   M5.Lcd.println("Response:");
-    //   M5.Lcd.setTextSize(1);
-    //   M5.Lcd.println(postResponseCode);
-    //   M5.Lcd.println(post_response);
-    // }
-    // else {
-    //   Serial.print("Error on sending POST: ");
-    //   Serial.println(postResponseCode);
-    //   Serial.println(http.errorToString(postResponseCode));
-    // }
+      // Display temperature and response on the M5StickC Plus
+      M5.Lcd.fillScreen(BLACK);
+      M5.Lcd.setTextSize(2);
+      M5.Lcd.setTextColor(WHITE);
+      M5.Lcd.setCursor(0, 0);
+      M5.Lcd.println("Response:");
+      M5.Lcd.setTextSize(1);
+      M5.Lcd.println(postResponseCode);
+      M5.Lcd.println(post_response);
+      M5.Lcd.println(postRequestData);
+    }
+    else {
+      Serial.print("Error on sending POST: ");
+      Serial.println(postResponseCode);
+      Serial.println(http.errorToString(postResponseCode));
+    }
 
-    // http.end();
-
-    // Delay before initiating the GET request
-    // delay(1000);
-
-    // // GET REQUEST
-    // HTTPClient http_get;
-    // http_get.begin(sendServer);
-    // http_get.addHeader("Content-Type", "application/json");
-
-    // int getResponseCode = http_get.GET();
+    http.end();
     
-    // if(getResponseCode > 0) {
-    //   String get_response = http_get.getString();
-    //   Serial.println(getResponseCode);
-    //   Serial.println(get_response);
+    Delay before initiating the GET request
+    delay(1000);
 
-    //   // Display response on the M5StickC Plus
-    //   M5.Lcd.fillScreen(BLACK);
-    //   M5.Lcd.setTextSize(2);
-    //   M5.Lcd.setTextColor(WHITE);
-    //   M5.Lcd.setCursor(0, 0);
-    //   M5.Lcd.println("Response:");
-    //   M5.Lcd.setTextSize(1);
-    //   M5.Lcd.println(getResponseCode);
-    //   M5.Lcd.println(get_response);
-    // }
-    // else {
-    //   Serial.print("Error on sending GET: ");
-    //   Serial.println(getResponseCode);
-    // }
+    //===================================================================
+    // GET REQUEST (for water plant)
+    HTTPClient http_water;
+    http_water.begin(waterPlant);
+    http_water.addHeader("Content-Type", "application/json");
 
-    // http_get.end();
-
-    // delay(1000);
-
-    // // GET REQUEST (for fertilizer)
-    // HTTPClient http_fertilize;
-    // http_fertilize.begin(fertilizer);
-    // http_fertilize.addHeader("Content-Type", "application/json");
-
-    // int getFertilizer = http_fertilize.GET();
+    int getWater = http_water.GET();
     
-    // if(getFertilizer > 0) {
-    //   String get_fertilizer = http_fertilize.getString();
-    //   Serial.println(getFertilizer);
-    //   Serial.println(get_fertilizer);
+    if(getWater > 0) {
+      String get_water = http_water.getString();
+      Serial.println(getWater);
+      Serial.println(get_water);
 
-    //   // Display response on the M5StickC Plus
-    //   M5.Lcd.fillScreen(BLACK);
-    //   M5.Lcd.setTextSize(2);
-    //   M5.Lcd.setTextColor(WHITE);
-    //   M5.Lcd.setCursor(0, 0);
-    //   M5.Lcd.println("Response:");
-    //   M5.Lcd.setTextSize(1);
-    //   M5.Lcd.println(getFertilizer);
-    //   M5.Lcd.println(get_fertilizer);
-    // }
-    // else {
-    //   Serial.print("Error on sending GET: ");
-    //   Serial.println(getFertilizer);
-    // }
+      // Display response on the M5StickC Plus
+      M5.Lcd.fillScreen(BLACK);
+      M5.Lcd.setTextSize(2);
+      M5.Lcd.setTextColor(WHITE);
+      M5.Lcd.setCursor(0, 0);
+      M5.Lcd.println("Response:");
+      M5.Lcd.setTextSize(1);
+      M5.Lcd.println(getWater);
+      M5.Lcd.println(get_water);
+    }
+    else {
+      Serial.print("Error on sending GET: ");
+      Serial.println(getWater);
+    }
 
-    // http_fertilize.end();
+    http_water.end();
 
-    // delay(1000);
+    delay(1000);
 
-    // // GET REQUEST (for plant settings)
+    //===================================================================
+    // GET REQUEST (for fertilize plant)
+    HTTPClient http_fertilize;
+    http_fertilize.begin(fertilizePlant);
+    http_fertilize.addHeader("Content-Type", "application/json");
+
+    int getFertilizer = http_fertilize.GET();
+    
+    if(getFertilizer > 0) {
+      String get_fertilizer = http_fertilize.getString();
+      Serial.println(getFertilizer);
+      Serial.println(get_fertilizer);
+
+      // Display response on the M5StickC Plus
+      M5.Lcd.fillScreen(BLACK);
+      M5.Lcd.setTextSize(2);
+      M5.Lcd.setTextColor(WHITE);
+      M5.Lcd.setCursor(0, 0);
+      M5.Lcd.println("Response:");
+      M5.Lcd.setTextSize(1);
+      M5.Lcd.println(getFertilizer);
+      M5.Lcd.println(get_fertilizer);
+    }
+    else {
+      Serial.print("Error on sending GET: ");
+      Serial.println(getFertilizer);
+    }
+
+    http_fertilize.end();
+
+    delay(1000);
+
+    //===================================================================
+    // GET REQUEST (for plant settings)
     HTTPClient http_settings;
     http_settings.begin(plantSettings);
     http_settings.addHeader("Content-Type", "application/json");
@@ -164,5 +159,5 @@ void loop() {
   else {
     Serial.println("WiFi Disconnected");
   }
-  delay(10000); // Send data every 5 seconds
+  delay(10000); // Send data every 10 seconds
 }
